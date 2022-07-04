@@ -8,14 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <style>
+        :root {
+            /* STACKOVERFLOW https://www.w3schools.com/css/css3_variables_javascript.asp */
+            --blue: #1e90ff;
+            --white: #ffffff;
+            --bgOpacity: 0.85;
+        }
+
         .v-sheet-pointer:hover {
             cursor: pointer;
         }
 
         .menu {
-            opacity: 0.97;
+            opacity: 0.98;
         }
-
 
         .messagesBackground {
             position: relative;
@@ -31,7 +37,7 @@
             right: 0px;
             bottom: 0px;
             left: 0px;
-            opacity: 0.85;
+            opacity: var(--bgOpacity);
         }
 
         .message {
@@ -54,7 +60,7 @@ HSL: (202 78% 55%)*/
         /* Works on Firefox */
         * {
             scrollbar-width: thin;
-            scrollbar-color: blue orange;
+            scrollbar-color: rgba(55, 55, 55, 0.4) orange;
         }
 
         /* Works on Chrome, Edge, and Safari */
@@ -83,13 +89,19 @@ HSL: (202 78% 55%)*/
                                 <v-sheet class="d-flex flex-row" width="100%">
                                     <v-sheet class="d-flex flex-column" width="255" height="100%">
                                         <v-sheet class="pa-2 d-flex">
-                                            <v-menu offset-y content-class="rounded-lg elevation-10 menu" close-delay="2000">
+                                            <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn v-bind="attrs" v-on="on" icon>
                                                         <v-icon>mdi-menu</v-icon>
                                                     </v-btn>
                                                 </template>
                                                 <v-sheet class="pa-3 rounded-lg menu" width="300">
+                                                    <v-sheet>
+                                                        Background opacity
+                                                        <v-slider v-model="backgroundOpacitySliderValuePercent" :thumb-size="27" thumb-label="always" min="0" max="1" step="0.01" hide-details>
+                                                        </v-slider>
+                                                    </v-sheet>
+
                                                     <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram v0.1.0 </span>
                                                 </v-sheet>
                                             </v-menu>
@@ -122,7 +134,7 @@ HSL: (202 78% 55%)*/
                                                 </v-sheet>
                                             </v-hover>
                                         </v-sheet>
-                                        <v-btn @click="addNewMessages2" v-ripple>add</v-btn>
+                                        <v-btn class="ma-10" @click="buttonAction" v-ripple>ACTION</v-btn>
                                     </v-sheet>
                                     <v-sheet class="d-flex elevation-0 messagesBackground" :height="$vuetify.breakpoint.height - 80" width="100%">
                                         <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
@@ -131,7 +143,7 @@ HSL: (202 78% 55%)*/
                                                 width="100%">
                                                 <v-sheet :class="'d-flex transparent elevation-0 pa-3 ' + (i % 2 === 0 ? 'flex-row-reverse'  : 'flex-row ')" width="100%" style="position: relative;">
                                                     <v-sheet :class="'message rounded-lg '+ (i % 2 === 0 ? ' '  : ' white ')" max-width="400">
-                                                        <v-sheet class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent green--text font-weight-bold">
+                                                        <v-sheet v-if="i % 2 === 1" class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent blue--text font-weight-bold">
                                                             author
                                                         </v-sheet>
                                                         <v-sheet class="px-2 transparent">
@@ -140,7 +152,7 @@ HSL: (202 78% 55%)*/
                                                             {{message}}
                                                         </v-sheet>
                                                         <v-sheet
-                                                            class="mt-n2 mb-0 d-flex flex-column align-end justify-end transparent elevation-0 transparent text-caption green--text font-weight-medium">
+                                                            :class="'mt-n2 mb-0 mx-2 d-flex flex-column align-end justify-end transparent elevation-0 transparent text-caption  font-weight-medium '+ (i % 2 === 0 ? ' green--text '  : ' grey--text ')">
                                                             {{new Date(message.created_at).toString().substring(15,21)}}
                                                         </v-sheet>
                                                     </v-sheet>
@@ -179,6 +191,13 @@ HSL: (202 78% 55%)*/
                         { title: 'Click Me' },
                         { title: 'Click Me 2' },
                     ],
+                    backgroundOpacitySliderValuePercent: 0.85,
+                }
+            },
+            watch: {
+                // whenever backgroundOpacitySliderValue changes, this function will run
+                backgroundOpacitySliderValuePercent(newBackgroundOpacitySliderValuePercent, oldBackgroundOpacitySliderValuePercent) {
+                    document.querySelector(':root').style.setProperty('--bgOpacity', newBackgroundOpacitySliderValuePercent)
                 }
             },
             created() {
@@ -192,16 +211,21 @@ HSL: (202 78% 55%)*/
                 setTimeout(() => this.addNewMessages4(), 4800);
             },
             methods: {
+                buttonAction() {
+                    document.querySelector(':root').style.setProperty('--bgOpacity', 0.2)
+                },
                 setActiveChatMessagesToShow(chatId) {
                     console.log('setActiveChatMessagesToShow clicked:', chatId)
                     this.activeChatMessagesToShow = this.messages.filter(item => item.chat_id === chatId)
                     this.activeChatId = chatId;
+                    // STACKOVERFLOW https://stackoverflow.com/questions/38399050/vue-equivalent-of-settimeout
                     setTimeout(() => this.scrollMessagesContainerToTheEnd(), 0);
                 },
                 testa() {
                     console.log('tst')
                 },
                 scrollMessagesContainerToTheEnd() {
+                    // STACKOVERFLOW https://stackoverflow.com/questions/40730116/scroll-to-bottom-of-div-with-vue-js
                     //console.warn(this.$refs.messagesContainer)
                     //console.warn(this.$refs.messagesContainer.$el)
                     this.$refs.messagesContainer.$el.scrollTop = 1000000000

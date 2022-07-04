@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <style>
+        /* STACKOVERFLOW https://code.visualstudio.com/api/references/icons-in-labels */
         :root {
             /* STACKOVERFLOW https://www.w3schools.com/css/css3_variables_javascript.asp */
             --blue: #1e90ff;
@@ -101,8 +102,7 @@ HSL: (202 78% 55%)*/
                                                         <v-slider v-model="backgroundOpacitySliderValuePercent" :thumb-size="27" thumb-label="always" min="0" max="1" step="0.01" hide-details>
                                                         </v-slider>
                                                     </v-sheet>
-
-                                                    <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram v0.1.0 </span>
+                                                    <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram v0.1.4 </span>
                                                 </v-sheet>
                                             </v-menu>
                                             <v-text-field label="Search" single-line prepend-inner-icon="mdi-magnify" outlined class="rounded-xl elevation-0" dense hide-details>Search</v-text-field>
@@ -172,6 +172,8 @@ HSL: (202 78% 55%)*/
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script>
+        //import audioTelegramNotification from "./audio/telegram-notification.mp3";
+
         new Vue({
             el: '#app',
             vuetify: new Vuetify(),
@@ -205,14 +207,14 @@ HSL: (202 78% 55%)*/
             },
             mounted() {
                 console.warn('mounted')
-                this.setActiveChatMessagesToShow('2');
-                setTimeout(() => this.addNewMessages2(), 300);
+                //this.setActiveChatMessagesToShow('2');
+                setTimeout(() => this.addNewMessages2(), 2000);
                 setTimeout(() => this.addNewMessages3(), 4000);
                 setTimeout(() => this.addNewMessages4(), 4800);
             },
             methods: {
                 buttonAction() {
-                    document.querySelector(':root').style.setProperty('--bgOpacity', 0.2)
+                    this.playNotificationSound();
                 },
                 setActiveChatMessagesToShow(chatId) {
                     console.log('setActiveChatMessagesToShow clicked:', chatId)
@@ -253,12 +255,14 @@ HSL: (202 78% 55%)*/
                         { chat_id: '2', type: 'private', text: 'texto19', created_at: new Date(new Date() - 13000) },
                         { chat_id: '2', type: 'private', text: 'texto20', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                    this.playNotificationSound();
                 },
                 addNewMessages3() {
                     this.messages = this.messages.concat([
                         { chat_id: '3', type: 'group', text: 'texto3', created_at: new Date(new Date() - 10000) },
                         { chat_id: '3', type: 'group', text: 'texto3', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                    this.playNotificationSound();
                 },
                 addNewMessages4() {
                     this.messages = this.messages.concat([
@@ -268,7 +272,35 @@ HSL: (202 78% 55%)*/
                         { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },
                         { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                    this.playNotificationSound();
                 },
+                playNotificationSound() {
+                    // TODO add settings -> notification sounds switch (sets the volume to 0 or 1)
+                    // TODO change color of TODO TREE HIGHLIGHTER STACKOVERFLOW diffent of TODO
+                    // STACKOVERFLOW Chrome requires the user to interact with the page so can play sounds => https://developer.chrome.com/blog/autoplay/
+                    // TODO turnaround solution => start muted and 1ms after set the volume to 1 ???
+                    // <audio preload="auto" src="./audio/telegram-notification.mp3" ref="notificationAudio"></audio>
+                    try {
+                        const sound = new Audio('./audio/telegram-notification.mp3')
+                        //console.log(sound)
+                        // STACKOVERFLOW https://stackoverflow.com/questions/40276718/how-to-handle-uncaught-in-promise-domexception-the-play-request-was-interru
+                        const promise = sound.play();
+                        if (promise !== undefined) {
+                            promise.then(_ => {
+                                // Autoplay started!
+                            }).catch(error => {
+                                // Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.
+                                console.warn("Not playing notification sounds because user didn't interact with the document first.")
+                                // Autoplay was prevented.
+                                // Show a "Play" button so that user can start playback.
+                            });
+                        }
+                    } catch (e) {
+                        console.log('has user intereact')
+                        console.log(e)
+                    }
+
+                }
             }
         })
     </script>

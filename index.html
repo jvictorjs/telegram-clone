@@ -102,10 +102,10 @@ HSL: (202 78% 55%)*/
                                                         <v-slider v-model="backgroundOpacitySliderValuePercent" :thumb-size="27" thumb-label="always" min="0" max="1" step="0.01" hide-details>
                                                         </v-slider>
                                                     </v-sheet>
-                                                    <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram v0.1.4 </span>
+                                                    <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram {{version}} </span>
                                                 </v-sheet>
                                             </v-menu>
-                                            <v-text-field label="Search" single-line prepend-inner-icon="mdi-magnify" outlined class="rounded-xl elevation-0" dense hide-details>Search</v-text-field>
+                                            <v-text-field label="Search" prepend-inner-icon="mdi-magnify" outlined class="rounded-xl elevation-0" dense hide-details></v-text-field>
                                         </v-sheet>
                                         <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id">
                                             <v-hover v-slot="{ hover }" open-delay="0">
@@ -114,9 +114,7 @@ HSL: (202 78% 55%)*/
                                                     <v-sheet class="d-flex text-left transparent" min-width="222">
                                                         <v-avatar class="mx-1 telegram-color">
                                                             <v-icon>
-                                                                {{messages.filter(item => item.chat_id === chat_id)[0].type ===
-                                                                'private' ?
-                                                                'mdi-account' : 'mdi-account-multiple'}}
+                                                                {{messages.filter(item => item.chat_id === chat_id)[0].type === 'private' ? 'mdi-account' : 'mdi-account-multiple'}}
                                                             </v-icon>
                                                         </v-avatar>
                                                         <v-sheet class="d-flex justify-center align-center transparent">
@@ -138,25 +136,58 @@ HSL: (202 78% 55%)*/
                                     </v-sheet>
                                     <v-sheet class="d-flex elevation-0 messagesBackground" :height="$vuetify.breakpoint.height - 80" width="100%">
                                         <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
-                                        <v-sheet class="d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
-                                            <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent  rounded-lg"
+                                        <v-sheet class="mb-15 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
+                                            <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
                                                 width="100%">
-                                                <v-sheet :class="'d-flex transparent elevation-0 pa-3 ' + (i % 2 === 0 ? 'flex-row-reverse'  : 'flex-row ')" width="100%" style="position: relative;">
-                                                    <v-sheet :class="'message rounded-lg '+ (i % 2 === 0 ? ' '  : ' white ')" max-width="400">
-                                                        <v-sheet v-if="i % 2 === 1" class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent blue--text font-weight-bold">
+                                                <v-sheet v-if="message.from === 'self'"
+                                                    :class="'d-flex transparent elevation-0 px-2 pb-1 ' + (message.from === 'self' ? '  flex-row-reverse ml-10 '  : '  flex-row mr-10 ')" width="100%"
+                                                    style="position: relative;">
+                                                    <v-sheet :class="'message rounded-lg '" max-width="400">
+                                                        <v-sheet class="px-2 transparent">
+                                                            {{i}}
+                                                            <br>
+                                                            {{message.text}}
+                                                        </v-sheet>
+                                                        <v-sheet class="d-flex flex-row transparent justify-end">
+                                                            <v-sheet
+                                                                :class="'mt-n1 mb-0 mx-0 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
+                                                                width="60">
+                                                                {{new Date(message.created_at).toString().substring(15,21)}}
+                                                                <v-icon class="ml-0" color="green" size="16">mdi-check</v-icon>
+                                                            </v-sheet>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                                <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-1 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                    <v-sheet class="message rounded-lg white" max-width="400">
+                                                        <v-sheet class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent blue--text font-weight-bold">
                                                             author
                                                         </v-sheet>
                                                         <v-sheet class="px-2 transparent">
                                                             {{i}}
                                                             <br>
-                                                            {{message}}
+                                                            {{message.text}}
                                                         </v-sheet>
-                                                        <v-sheet
-                                                            :class="'mt-n2 mb-0 mx-2 d-flex flex-column align-end justify-end transparent elevation-0 transparent text-caption  font-weight-medium '+ (i % 2 === 0 ? ' green--text '  : ' grey--text ')">
-                                                            {{new Date(message.created_at).toString().substring(15,21)}}
+                                                        <v-sheet class="d-flex flex-row transparent justify-end">
+                                                            <v-sheet
+                                                                :class="'mt-n1 mb-0 mx-0 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
+                                                                width="50">
+                                                                {{new Date(message.created_at).toString().substring(15,21)}}
+                                                            </v-sheet>
                                                         </v-sheet>
                                                     </v-sheet>
                                                 </v-sheet>
+                                            </v-sheet>
+                                        </v-sheet>
+
+                                        <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0  " height="55"
+                                            style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
+                                            <v-sheet class="white rounded-lg rounded-br-0" width="100%">
+                                                <v-text-field class="transparent rounded-lg rounded-br-0" v-model="newMessageInputText" filled clear-icon="mdi-close-circle" type="text" solo
+                                                    single-line dense @keyup.enter="addMessageToChat" hide-details />
+                                            </v-sheet>
+                                            <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addMessageToChat">
+                                                <v-icon color="white">mdi-send</v-icon>
                                             </v-sheet>
                                         </v-sheet>
                                     </v-sheet>
@@ -180,20 +211,14 @@ HSL: (202 78% 55%)*/
 
             data() {
                 return {
+                    version: 'v0.1.5', // TODO update the screenshot for README
                     tab: 'tab-0',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                    messages: [
-                        { chat_id: '1', type: 'private', text: 'texto1', created_at: new Date() - 800000 },
-                    ],
+                    messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
-                    items: [
-                        { title: 'Click Me' },
-                        { title: 'Click Me' },
-                        { title: 'Click Me' },
-                        { title: 'Click Me 2' },
-                    ],
                     backgroundOpacitySliderValuePercent: 0.85,
+                    newMessageInputText: '',
                 }
             },
             watch: {
@@ -207,8 +232,9 @@ HSL: (202 78% 55%)*/
             },
             mounted() {
                 console.warn('mounted')
-                //this.setActiveChatMessagesToShow('2');
-                setTimeout(() => this.addNewMessages2(), 2000);
+                this.setActiveChatMessagesToShow('2');
+                setTimeout(() => this.addNewMessages1(), 0);
+                setTimeout(() => this.addNewMessages2(), 200);
                 setTimeout(() => this.addNewMessages3(), 4000);
                 setTimeout(() => this.addNewMessages4(), 4800);
             },
@@ -232,45 +258,59 @@ HSL: (202 78% 55%)*/
                     //console.warn(this.$refs.messagesContainer.$el)
                     this.$refs.messagesContainer.$el.scrollTop = 1000000000
                 },
+                addMessageToChat() {
+                    if (this.newMessageInputText) {
+                        console.log('adding new msg...' + this.newMessageInputText)
+                        this.messages.push({ chat_id: this.activeChatId, type: 'private', from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()) })
+                        this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                        this.newMessageInputText = ''
+                    }
+                },
+                addNewMessages1() {
+                    this.messages = this.messages.concat([
+                        { chat_id: '1', type: 'private', from: 'other', text: 'texto1', created_at: new Date() - 800000 },])
+                    this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                    //this.playNotificationSound();
+                },
                 addNewMessages2() {
                     this.messages = this.messages.concat([
-                        { chat_id: '2', type: 'private', text: 'texto1', created_at: new Date(new Date() - 510000) },
-                        { chat_id: '2', type: 'private', text: 'texto2', created_at: new Date(new Date() - 500000) },
-                        { chat_id: '2', type: 'private', text: 'texto3', created_at: new Date(new Date() - 490000) },
-                        { chat_id: '2', type: 'private', text: 'texto4', created_at: new Date(new Date() - 480000) },
-                        { chat_id: '2', type: 'private', text: 'texto5', created_at: new Date(new Date() - 470000) },
-                        { chat_id: '2', type: 'private', text: 'texto6', created_at: new Date(new Date() - 460000) },
-                        { chat_id: '2', type: 'private', text: 'texto7', created_at: new Date(new Date() - 450000) },
-                        { chat_id: '2', type: 'private', text: 'texto8', created_at: new Date(new Date() - 44000) },
-                        { chat_id: '2', type: 'private', text: 'texto9', created_at: new Date(new Date() - 43000) },
-                        { chat_id: '2', type: 'private', text: 'texto10', created_at: new Date(new Date() - 42000) },
-                        { chat_id: '2', type: 'private', text: 'texto11', created_at: new Date(new Date() - 41000) },
-                        { chat_id: '2', type: 'private', text: 'texto12', created_at: new Date(new Date() - 40000) },
-                        { chat_id: '2', type: 'private', text: 'texto13', created_at: new Date(new Date() - 39000) },
-                        { chat_id: '2', type: 'private', text: 'texto14', created_at: new Date(new Date() - 36000) },
-                        { chat_id: '2', type: 'private', text: 'texto15', created_at: new Date(new Date() - 34000) },
-                        { chat_id: '2', type: 'private', text: 'texto16', created_at: new Date(new Date() - 33000) },
-                        { chat_id: '2', type: 'private', text: 'texto17', created_at: new Date(new Date() - 20000) },
-                        { chat_id: '2', type: 'private', text: 'texto18', created_at: new Date(new Date() - 15000) },
-                        { chat_id: '2', type: 'private', text: 'texto19', created_at: new Date(new Date() - 13000) },
-                        { chat_id: '2', type: 'private', text: 'texto20', created_at: new Date(new Date() - 10000) },])
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto1', created_at: new Date(new Date() - 510000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto2', created_at: new Date(new Date() - 500000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto3', created_at: new Date(new Date() - 490000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto4', created_at: new Date(new Date() - 480000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto5', created_at: new Date(new Date() - 470000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto6', created_at: new Date(new Date() - 460000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto7', created_at: new Date(new Date() - 450000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto8', created_at: new Date(new Date() - 44000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto9', created_at: new Date(new Date() - 43000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto10', created_at: new Date(new Date() - 42000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto11', created_at: new Date(new Date() - 41000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto12', created_at: new Date(new Date() - 40000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto13', created_at: new Date(new Date() - 39000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto14', created_at: new Date(new Date() - 36000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto15', created_at: new Date(new Date() - 34000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto16', created_at: new Date(new Date() - 33000) },
+                        { chat_id: '2', type: 'private', from: '', text: 'texto17', created_at: new Date(new Date() - 20000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto18', created_at: new Date(new Date() - 15000) },
+                        { chat_id: '2', type: 'private', from: '', text: 'texto19', created_at: new Date(new Date() - 13000) },
+                        { chat_id: '2', type: 'private', from: 'self', text: 'texto20 texto20 texto20', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
                 },
                 addNewMessages3() {
                     this.messages = this.messages.concat([
-                        { chat_id: '3', type: 'group', text: 'texto3', created_at: new Date(new Date() - 10000) },
-                        { chat_id: '3', type: 'group', text: 'texto3', created_at: new Date(new Date() - 10000) },])
+                        { chat_id: '3', type: 'group', from: '', text: 'texto3', created_at: new Date(new Date() - 10000) },
+                        { chat_id: '3', type: 'group', from: '', text: 'texto3', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
                 },
                 addNewMessages4() {
                     this.messages = this.messages.concat([
-                        { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: '4', type: 'private', text: 'texto4', created_at: new Date(new Date() - 10000) },])
+                        { chat_id: '4', type: 'private', from: '', text: 'texto4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: '4', type: 'private', from: '', text: 'texto4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: '4', type: 'private', from: '', text: 'texto4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: '4', type: 'private', from: '', text: 'texto4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: '4', type: 'private', from: '', text: 'texto4 texto4 texto4', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
                 },

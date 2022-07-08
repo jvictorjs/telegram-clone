@@ -13,7 +13,7 @@
             /* STACKOVERFLOW https://www.w3schools.com/css/css3_variables_javascript.asp */
             --blue: #1e90ff;
             --white: #ffffff;
-            --bgOpacity: 0.85;
+            --bgOpacity: 0.93;
         }
 
         .v-sheet-pointer:hover {
@@ -133,16 +133,24 @@
                                                         <v-icon>mdi-menu</v-icon>
                                                     </v-btn>
                                                 </template>
-                                                <v-sheet class="pa-3 rounded-lg menu" width="300">
-                                                    <v-sheet>
-                                                        Background opacity
-                                                        <v-slider v-model="backgroundOpacitySliderValuePercent" :thumb-size="27" thumb-label="always" min="0" max="1" step="0.01" hide-details>
-                                                        </v-slider>
+                                                <v-sheet class="d-flex flex-column align-center justify-center pa-2 rounded-lg menu grey--text elevation-0" width="282">
+                                                    <v-sheet class="d-flex flex-row align-center justify-space-around text-center pa-2 elevation-0 grey--text font-weight-medium">
+                                                        Notification Sounds
+                                                        <v-sheet class=" ml-2  d-flex flex-column align-center justify-center elevation-0 " width="89">
+                                                            <v-switch v-model="isPlaySoundsSwitchOn" class="mt-0 ml-5" inset dense hide-spin-buttons hide-details></v-switch>
+                                                        </v-sheet>
                                                     </v-sheet>
-                                                    <span class="text-subtitle-2 grey--text text--darken-2"> Fake Telegram {{version}} </span>
+                                                    <v-sheet class="d-flex flex-row align-center justify-space-around  elevation-0 pa-2 grey--text font-weight-medium">
+                                                        Background opacity
+                                                        <v-sheet class="ml-2 elevation-0" width="89">
+                                                            <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.65" max="1" inverse-label step="0.01" hide-details>
+                                                            </v-slider>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                    <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-2 elevation-0"> Fake Telegram {{version}} </span>
                                                 </v-sheet>
                                             </v-menu>
-                                            <v-text-field label="Search" prepend-inner-icon="mdi-magnify" outlined class="rounded-xl elevation-0" dense hide-details></v-text-field>
+                                            <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
                                         </v-sheet>
                                         <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id">
                                             <v-hover v-slot="{ hover }" open-delay="0">
@@ -151,7 +159,7 @@
                                                     <v-sheet class="d-flex text-left transparent" min-width="222">
                                                         <v-avatar class="mx-1 telegram-color">
                                                             <v-icon>
-                                                                {{messages.filter(item => item.chat_id === chat_id)[0].type === 'private' ? 'mdi-account' : 'mdi-account-multiple'}}
+                                                                {{chats.filter(chat => chat.id === chat_id)[0].type === 'private' ? 'mdi-account' : 'mdi-account-multiple'}}
                                                             </v-icon>
                                                         </v-avatar>
                                                         <v-sheet class="d-flex justify-center align-center transparent">
@@ -196,14 +204,14 @@
                                                 </v-sheet>
                                                 <v-sheet v-else-if="message.from === 'service-msg'" :class="'d-flex align-center justify-center transparent elevation-0 px-2 pb-1 '" width="100%"
                                                     style="position: relative;">
-                                                    <v-sheet :class="'px-2 service-msg rounded-xl'" max-width="400">
+                                                    <v-sheet :class="'px-2 service-msg rounded-xl '" max-width="400">
                                                         <v-sheet class="pa-1 transparent  grey--text text--lighten-3 v-sheet-pointer ">
                                                             {{message.text}}
                                                         </v-sheet>
                                                     </v-sheet>
                                                 </v-sheet>
                                                 <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-1 flex-row mr-10 '" width="100%" style="position: relative;">
-                                                    <v-sheet class="message-other rounded-lg rounded-bl-0 " max-width="400">
+                                                    <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="400">
                                                         <v-sheet class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent blue--text font-weight-bold">
                                                             author
                                                         </v-sheet>
@@ -255,13 +263,14 @@
 
             data() {
                 return {
-                    version: 'v0.1.7', // TODO update the screenshot for README
+                    version: 'v0.1.8', // TODO update the screenshot for README
                     tab: 'tab-0',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
-                    backgroundOpacitySliderValuePercent: 0.85,
+                    isPlaySoundsSwitchOn: true,
+                    backgroundOpacitySliderValuePercent: 0.93,
                     newMessageInputText: '',
                     chats: [
                         { id: 1, title: 'test chat 1', type: 'private' },
@@ -312,7 +321,7 @@
                 addMessageToChat() {
                     if (this.newMessageInputText) {
                         console.log('adding new msg...' + this.newMessageInputText)
-                        this.messages.push({ chat_id: this.activeChatId, type: 'private', from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()) })
+                        this.messages.push({ chat_id: this.activeChatId, from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()) })
                         this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                         this.newMessageInputText = ''
                     }
@@ -342,9 +351,6 @@
                         { chat_id: 2, from: 'self', text: 'text11', created_at: new Date(new Date() - 41000) },
                         { chat_id: 2, from: 'self', text: 'text12', created_at: new Date(new Date() - 40000) },
                         { chat_id: 2, from: 'self', text: 'text13', created_at: new Date(new Date() - 39000) },
-                        { chat_id: 2, from: 'self', text: 'text14', created_at: new Date(new Date() - 36000) },
-                        { chat_id: 2, from: 'self', text: 'text15', created_at: new Date(new Date() - 34000) },
-                        { chat_id: 2, from: 'self', text: 'text16', created_at: new Date(new Date() - 33000) },
                         { chat_id: 2, from: '', text: 'text17', created_at: new Date(new Date() - 20000) },
                         { chat_id: 2, from: 'self', text: 'text18', created_at: new Date(new Date() - 15000) },
                         { chat_id: 2, from: '', text: 'text19', created_at: new Date(new Date() - 13000) },
@@ -374,31 +380,31 @@
                     this.playNotificationSound();
                 },
                 playNotificationSound() {
-                    // TODO add settings -> notification sounds switch (sets the volume to 0 or 1)
                     // TODO change color of TODO TREE HIGHLIGHTER STACKOVERFLOW diffent of TODO
                     // STACKOVERFLOW Chrome requires the user to interact with the page so can play sounds => https://developer.chrome.com/blog/autoplay/
-                    // TODO turnaround solution => start muted and 1ms after set the volume to 1 ???
+                    // TODO turnaround solution => start muted and 1ms after set the volume to 1 ??? or insert an wellcome alert (welcome to telegram clone) with overlay to hide background, so user will click ok and open the page
                     // <audio preload="auto" src="./audio/telegram-notification.mp3" ref="notificationAudio"></audio>
-                    try {
-                        const sound = new Audio('./audio/telegram-notification.mp3')
-                        //console.log(sound)
-                        // STACKOVERFLOW https://stackoverflow.com/questions/40276718/how-to-handle-uncaught-in-promise-domexception-the-play-request-was-interru
-                        const promise = sound.play();
-                        if (promise !== undefined) {
-                            promise.then(_ => {
-                                // Autoplay started!
-                            }).catch(error => {
-                                // Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.
-                                console.warn("Not playing notification sounds because user didn't interact with the document first.")
-                                // Autoplay was prevented.
-                                // Show a "Play" button so that user can start playback.
-                            });
+                    if (this.isPlaySoundsSwitchOn) {
+                        try {
+                            const sound = new Audio('./audio/telegram-notification.mp3')
+                            //console.log(sound)
+                            // STACKOVERFLOW https://stackoverflow.com/questions/40276718/how-to-handle-uncaught-in-promise-domexception-the-play-request-was-interru
+                            const promise = sound.play();
+                            if (promise !== undefined) {
+                                promise.then(_ => {
+                                    // Autoplay started!
+                                }).catch(error => {
+                                    // Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.
+                                    console.warn("Not playing notification sounds because user didn't interact with the document first.")
+                                    // Autoplay was prevented.
+                                    // Show a "Play" button so that user can start playback.
+                                });
+                            }
+                        } catch (e) {
+                            console.log('has user intereact')
+                            console.log(e)
                         }
-                    } catch (e) {
-                        console.log('has user intereact')
-                        console.log(e)
                     }
-
                 }
             }
         })

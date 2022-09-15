@@ -13,7 +13,7 @@
             /* STACKOVERFLOW https://www.w3schools.com/css/css3_variables_javascript.asp */
             --blue: #1e90ff;
             --white: #ffffff;
-            --bgOpacity: 0.93;
+            --bgOpacity: 0.89;
         }
 
         .v-sheet-pointer:hover {
@@ -31,8 +31,8 @@
         .messagesBackground::before {
             /* STACKOVERFLOW https://coder-coder.com/background-image-opacity/ */
             content: "";
+            background-color: black;
             background-image: url('img/telegram-backgroundZ.png');
-            background-size: cover;
             position: absolute;
             top: 0px;
             right: 0px;
@@ -121,11 +121,11 @@
                     <v-container class="align-center justify-center appContainer" fluid fill-height>
                         <v-sheet elevation="10" class="align-center justify-center rounded-lg" width="100%" max-width="1200" min-width="500">
                             <v-sheet elevation="10" class="d-flex flex-column align-center justify-start light-blue lighten-5 rounded-lg" height="100%" max-height="100%">
-                                <v-sheet flat class="pa-3 telegram-color elevation-10" width="100%">
-                                    <v-toolbar-title>Welcome to Fake Telegram! {{$vuetify.breakpoint.width}}x{{$vuetify.breakpoint.height}}</v-toolbar-title>
+                                <v-sheet flat class="pa-3 telegram-color elevation-10 rounded-t-lg" width="100%">
+                                    <v-toolbar-title>Welcome to Fake Telegram! {{version}} {{$vuetify.breakpoint.width}}x{{$vuetify.breakpoint.height}}</v-toolbar-title>
                                 </v-sheet>
                                 <v-sheet class="d-flex flex-row" width="100%">
-                                    <v-sheet class="d-flex flex-column" width="255" height="100%">
+                                    <v-sheet class="d-flex flex-column" id="left-container" width="255" height="100%">
                                         <v-sheet class="pa-2 d-flex">
                                             <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
                                                 <template v-slot:activator="{ on, attrs }">
@@ -143,7 +143,7 @@
                                                     <v-sheet class="d-flex flex-row align-center justify-space-around  elevation-0 pa-2 grey--text font-weight-medium">
                                                         Background opacity
                                                         <v-sheet class="ml-2 elevation-0" width="89">
-                                                            <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.65" max="1" inverse-label step="0.01" hide-details>
+                                                            <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.42" max="1" inverse-label step="0.01" hide-details>
                                                             </v-slider>
                                                         </v-sheet>
                                                     </v-sheet>
@@ -157,20 +157,26 @@
                                                 <v-sheet :class="'mx-2 pa-2 rounded-lg v-sheet-pointer ' + (activeChatId === chat_id ? ' primary lighten-1 ' : hover ? ' grey lighten-3 ' : '')"
                                                     @click="setActiveChatMessagesToShow(chat_id)" v-ripple>
                                                     <v-sheet class="d-flex text-left transparent" min-width="222">
-                                                        <v-avatar class="mx-1 telegram-color">
-                                                            <v-icon>
-                                                                {{chats.filter(chat => chat.id === chat_id)[0].type === 'private' ? 'mdi-account' : 'mdi-account-multiple'}}
+                                                        <v-avatar class="mx-2 telegram-color elevation-2 rounded-circle d-flex align-center justify-center" width="45" height="45">
+                                                            <v-icon v-if="chats[chat_id-1].img_type === 'icon'">
+                                                                {{chats[chat_id-1].img_src}}
                                                             </v-icon>
+                                                            <v-sheet v-else class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%">
+                                                                <v-img :src="'./img/profile/'+chats[chat_id-1].img_src" transition="scale-transition"
+                                                                    :style="'image-rendering: -webkit-optimize-contrast;'" />
+                                                            </v-sheet>
                                                         </v-avatar>
                                                         <v-sheet class="d-flex justify-center align-center transparent">
                                                             <v-sheet class="d-flex transparent elevation-0" width="130">
-                                                                <span class="text-subtitle font-weight-bold"> {{chats.filter(chat => chat.id === chat_id)[0].title}}</span>
+                                                                <span class="text-subtitle font-weight-bold"> {{chats[chat_id-1].title}}</span>
                                                             </v-sheet>
                                                             <v-sheet class="d-flex flex-column justify-center align-center transparent">
                                                                 <v-sheet :class="'transparent text-caption font-weight-medium  '+ (activeChatId === chat_id ? 'white--text' :'grey--text')">
                                                                     {{new Date(messages.filter(msg => msg.chat_id === chat_id).pop().created_at).toString().substring(15,21)}}
                                                                 </v-sheet>
-                                                                <v-sheet class="px-2 d-flex transparent rounded-xl green lighten-1 text-subtitle-2" dark>5</v-sheet>
+                                                                <v-sheet class="px-2 d-flex transparent rounded-xl green lighten-1 text-subtitle-2" dark>
+                                                                    {{chats[chat_id-1].unreadMsgs ? '...' : ''}}
+                                                                </v-sheet>
                                                             </v-sheet>
                                                         </v-sheet>
                                                     </v-sheet>
@@ -179,7 +185,7 @@
                                         </v-sheet>
                                         <v-btn class="ma-10" @click="buttonAction" v-ripple>ACTION</v-btn>
                                     </v-sheet>
-                                    <v-sheet class="d-flex pl-1 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height - 80" width="100%">
+                                    <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height - 80" width="100%">
                                         <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
                                         <v-sheet class="mb-15 mt-2 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
                                             <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
@@ -213,7 +219,7 @@
                                                 <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-1 flex-row mr-10 '" width="100%" style="position: relative;">
                                                     <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="400">
                                                         <v-sheet class="mx-2 mt-1 d-flex align-self-start rounded-lg transparent blue--text font-weight-bold">
-                                                            author
+                                                            {{accounts[message.from].name}}
                                                         </v-sheet>
                                                         <v-sheet class="px-2 transparent">
                                                             {{i}}
@@ -232,7 +238,7 @@
                                             </v-sheet>
                                         </v-sheet>
 
-                                        <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0  " height="55"
+                                        <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0" height="55"
                                             style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
                                             <v-sheet class="white rounded-lg rounded-br-0" width="100%">
                                                 <v-text-field class="transparent rounded-lg rounded-br-0" v-model="newMessageInputText" filled clear-icon="mdi-close-circle" type="text" solo
@@ -263,21 +269,27 @@
 
             data() {
                 return {
-                    version: 'v0.1.8', // TODO update the screenshot for README
+                    version: 'v0.2.0', // TODO update the screenshot for README
                     tab: 'tab-0',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
                     isPlaySoundsSwitchOn: true,
-                    backgroundOpacitySliderValuePercent: 0.93,
+                    backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
                     chats: [
-                        { id: 1, title: 'test chat 1', type: 'private' },
-                        { id: 2, title: 'test chat 2', type: 'group' },
-                        { id: 3, title: 'test chat 3', type: 'private' },
-                        { id: 4, title: 'test chat 4', type: 'private' },
-                        { id: 5, title: 'jvictorjs', type: 'private' },
+                        { id: 1, title: 'private chat 1', type: 'private', img_type: 'pic', img_src: 'blank.png', unreadMsgs: true },
+                        { id: 2, title: 'group chat 2', type: 'group', img_type: 'icon', img_src: 'mdi-account-multiple', unreadMsgs: true },
+                        { id: 3, title: 'private chat 3', type: 'private', img_type: 'icon', img_src: 'mdi-account', unreadMsgs: true },
+                        { id: 4, title: 'private chat 4', type: 'private', img_type: 'pic', img_src: 'blank.png', unreadMsgs: true },
+                        { id: 5, title: 'jvictorjs', type: 'private', img_type: 'pic', img_src: 'jvictorjs.jpg', unreadMsgs: true },
+                    ],
+                    accounts: [
+                        { id: 0, name: "test author", img_src: 'blank.png', fontColor: 'blue' },
+                        { id: 1, name: 'jvictorjs', img_src: 'jvictorjs.jpg', fontColor: 'blue' },
+                        { id: 2, name: 'Federal University of Pernambuco (UFPE)', img_src: 'ufpe.png', fontColor: 'green' },
+                        { id: 3, name: "Brazil's Ministry of Economy", img_src: 'ministryofeconomy.jpg', fontColor: 'orange' },
                     ]
                 }
             },
@@ -292,11 +304,12 @@
             },
             mounted() {
                 console.warn('mounted')
-                this.setActiveChatMessagesToShow('2');
+                //this.setActiveChatMessagesToShow(1);
                 setTimeout(() => this.addNewMessages1(), 0);
                 setTimeout(() => this.addNewMessages2(), 200);
-                setTimeout(() => this.addNewMessages3(), 4000);
-                setTimeout(() => this.addNewMessages4(), 4800);
+                setTimeout(() => this.addNewMessages3(), 3500);
+                setTimeout(() => this.addNewMessages4(), 4400);
+                setTimeout(() => this.addNewMessages5(), 5200);
             },
             methods: {
                 buttonAction() {
@@ -306,6 +319,7 @@
                     console.log('setActiveChatMessagesToShow clicked:', chatId)
                     this.activeChatMessagesToShow = this.messages.filter(item => item.chat_id === chatId)
                     this.activeChatId = chatId;
+                    this.chats.filter(item => item.id === chatId)[0].unreadMsgs = false;
                     // STACKOVERFLOW https://stackoverflow.com/questions/38399050/vue-equivalent-of-settimeout
                     setTimeout(() => this.scrollMessagesContainerToTheEnd(), 0);
                 },
@@ -330,7 +344,7 @@
                     this.messages = this.messages.concat([
                         { chat_id: 1, from: 'service-msg', text: 'Jul 07', created_at: new Date(new Date() - 530000) },
                         { chat_id: 1, from: 'service-msg', text: 'jvictorjs added you', created_at: new Date(new Date() - 520000) },
-                        { chat_id: 1, from: 'other', text: 'text1', created_at: new Date() - 500000 },])
+                        { chat_id: 1, from: 0, text: 'text1', created_at: new Date() - 500000 },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     //this.playNotificationSound();
                 },
@@ -351,9 +365,9 @@
                         { chat_id: 2, from: 'self', text: 'text11', created_at: new Date(new Date() - 41000) },
                         { chat_id: 2, from: 'self', text: 'text12', created_at: new Date(new Date() - 40000) },
                         { chat_id: 2, from: 'self', text: 'text13', created_at: new Date(new Date() - 39000) },
-                        { chat_id: 2, from: '', text: 'text17', created_at: new Date(new Date() - 20000) },
+                        { chat_id: 2, from: 0, text: 'text17', created_at: new Date(new Date() - 20000) },
                         { chat_id: 2, from: 'self', text: 'text18', created_at: new Date(new Date() - 15000) },
-                        { chat_id: 2, from: '', text: 'text19', created_at: new Date(new Date() - 13000) },
+                        { chat_id: 2, from: 0, text: 'text19', created_at: new Date(new Date() - 13000) },
                         { chat_id: 2, from: 'self', text: 'text20 text20 text20', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
@@ -362,8 +376,8 @@
                     this.messages = this.messages.concat([
                         { chat_id: 3, from: 'service-msg', text: 'Jul 07', created_at: new Date(new Date() - 530000) },
                         { chat_id: 3, from: 'service-msg', text: 'jvictorjs added you', created_at: new Date(new Date() - 520000) },
-                        { chat_id: 3, from: '', text: 'text3', created_at: new Date(new Date() - 10000) },
-                        { chat_id: 3, from: '', text: 'text3', created_at: new Date(new Date() - 10000) },])
+                        { chat_id: 3, from: 0, text: 'text3', created_at: new Date(new Date() - 10000) },
+                        { chat_id: 3, from: 0, text: 'text3', created_at: new Date(new Date() - 10000) },])
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
                 },
@@ -372,10 +386,18 @@
                         { chat_id: 4, from: 'service-msg', text: 'Jul 07', created_at: new Date(new Date() - 530000) },
                         { chat_id: 4, from: 'service-msg', text: 'jvictorjs added you', created_at: new Date(new Date() - 520000) },
                         { chat_id: 4, from: 'self', text: 'text4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: 4, from: '', text: 'text4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: 4, from: '', text: 'text4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: 4, from: 0, text: 'text4', created_at: new Date(new Date() - 10000) },
+                        { chat_id: 4, from: 0, text: 'text4', created_at: new Date(new Date() - 10000) },
                         { chat_id: 4, from: 'self', text: 'text4', created_at: new Date(new Date() - 10000) },
-                        { chat_id: 4, from: '', text: 'text4 text4 text4', created_at: new Date(new Date() - 10000) },])
+                        { chat_id: 4, from: 0, text: 'text4 text4 text4', created_at: new Date(new Date() - 10000) },])
+                    this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                    this.playNotificationSound();
+                },
+                addNewMessages5() {
+                    this.messages = this.messages.concat([
+                        { chat_id: 5, from: 'service-msg', text: 'Jul 07', created_at: new Date(new Date() - 530000) },
+                        { chat_id: 5, from: 1, text: 'Hello! This is João Victor and welcome to my personal chat website (telegram clone). Feel free to interact with the page and send me a message anytime.', created_at: new Date(new Date() - 10000) },
+                    ]);
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                     this.playNotificationSound();
                 },

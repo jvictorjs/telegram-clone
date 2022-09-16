@@ -21,6 +21,8 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Data.js module (accounts, chats, messages) [v0.2.2]
 - ✅ Project getting big: css moved to index.css [v0.3.0]
 - ✅ First Vue component: AboutDialog.vue [v0.3.1]
+- ✅ Telegram WebK version style/responsiveness adjustments [v0.4.0]
+- Scrollable chat list (overflow-y)
 - Image messages
 - Audio messages
 - Send real messages to my telegram account
@@ -29,6 +31,5 @@ Shows Telegram messages to anyone without an telegram access/account.
 - Change page title and icon
 - Chat title/pic bar in the top of messages container
 - Chat search (by title only)
-- Scrollable chat list (overflow-y)
 - Default messages container page (chat send msg hidden)
 - Chat details with Group chat members list with pic

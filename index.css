@@ -82,7 +82,8 @@ a {
 
 .appContainer {
   /* https://www.onlinepalette.com/telegram/    Hex: #30A3E6     RGB: (48 163 230)    HSL: (202 78% 55%)      */
-  background-color: rgba(48, 163, 230, 0.03);
+  //background-color: rgba(48, 163, 230, 0.03);
+  background-color: white;
 }
 
 .telegram-color {

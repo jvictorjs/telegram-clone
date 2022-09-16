@@ -8,114 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <style>
-        a {
-            text-decoration: none;
-        }
-
-        /* STACKOVERFLOW https://code.visualstudio.com/api/references/icons-in-labels */
-        :root {
-            /* STACKOVERFLOW https://www.w3schools.com/css/css3_variables_javascript.asp */
-            --blue: #1e90ff;
-            --white: #ffffff;
-            --bgOpacity: 0.89;
-        }
-
-        .v-sheet-pointer:hover {
-            cursor: pointer !important;
-        }
-
-        .menu {
-            opacity: 0.98;
-        }
-
-        .messagesBackground {
-            position: relative;
-        }
-
-        .messagesBackground::before {
-            /* STACKOVERFLOW https://coder-coder.com/background-image-opacity/ */
-            content: "";
-            background-color: black;
-            background-image: url('img/telegram-backgroundZ.png');
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            opacity: var(--bgOpacity);
-        }
-
-        .message-self {
-            background-color: rgb(230, 248, 225) !important;
-            position: relative;
-        }
-
-        .message-other {
-            background-color: white !important;
-            position: relative;
-        }
-
-        .message-self::before {
-            /* STACKOVERFLOW https://stackoverflow.com/questions/59482476/how-can-i-create-a-triangle-pointer-in-vuetify-v-menu-component */
-            /* STACKOVERFLOW https://css-tricks.com/snippets/css/css-triangle/ */
-            position: absolute;
-            content: "";
-            bottom: 0px;
-            right: 0px;
-            transform: translateY(0px) translateX(8px);
-            width: 10px;
-            height: 10px;
-            border-top: 10px solid transparent;
-            border-left: 10px solid rgb(230, 248, 225);
-            border-bottom: 0px solid transparent;
-            border-right: 0px solid transparent;
-        }
-
-        .message-other::before {
-            position: absolute;
-            content: "";
-            bottom: 0px;
-            left: 0px;
-            transform: translateY(0px) translateX(-8px);
-            width: 10px;
-            height: 10px;
-            border-top: 10px solid transparent;
-            border-right: 10px solid white;
-            border-bottom: 0px solid transparent;
-            border-left: 0px solid transparent;
-        }
-
-        .service-msg {
-            background-color: rgba(0, 0, 0, 0.16) !important;
-            position: relative;
-        }
-
-        .appContainer {
-            /* https://www.onlinepalette.com/telegram/    Hex: #30A3E6     RGB: (48 163 230)    HSL: (202 78% 55%)      */
-            background-color: rgba(48, 163, 230, 0.03);
-        }
-
-        .telegram-color {
-            background-color: #30A3E6 !important;
-        }
-
-        /* Works on Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(55, 55, 55, 0.4) orange;
-        }
-
-        /* Works on Chrome, Edge, and Safari */
-        *::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        *::-webkit-scrollbar-thumb {
-            background-color: rgba(55, 55, 55, 0.4);
-            border-radius: 3px;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -163,7 +56,7 @@
                                                     @click="setActiveChatMessagesToShow(chat_id)" v-ripple>
                                                     <v-sheet class="d-flex text-left transparent" min-width="222">
                                                         <v-avatar class="mx-2 telegram-color elevation-2 rounded-circle d-flex align-center justify-center" width="45" height="45">
-                                                            <v-icon v-if="chats[chat_id-1].img_type === 'icon'">
+                                                            <v-icon v-if="chats[chat_id-1].img_type === 'icon'" size="33">
                                                                 {{chats[chat_id-1].img_src}}
                                                             </v-icon>
                                                             <v-sheet v-else class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%">
@@ -317,7 +210,7 @@
 
             data() {
                 return {
-                    version: 'v0.2.2', // TODO update the screenshot for README
+                    version: 'v0.3.0', // TODO update the screenshot for README
                     tab: 'tab-0',
                     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                     messages: [],
@@ -326,7 +219,7 @@
                     isPlaySoundsSwitchOn: true,
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
-                    productionMode: true,
+                    productionMode: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
                 }

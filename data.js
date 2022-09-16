@@ -21,7 +21,7 @@ const CHATS = [
   { id: 4, title: "private chat 4", type: "private", img_type: "pic", img_src: "blank.png", unreadMsgs: true },
   { id: 5, title: "jvictorjs", type: "private", img_type: "pic", img_src: "jvictorjs.jpg", unreadMsgs: true },
   { id: 6, title: "Experience", type: "group", img_type: "icon", img_src: "mdi-briefcase", unreadMsgs: true },
-  { id: 7, title: "Course", type: "group", img_type: "icon", img_src: "mdi-briefcase", unreadMsgs: true },
+  { id: 7, title: "Course", type: "group", img_type: "icon", img_src: "mdi-account-school", unreadMsgs: true }, // mdi-school mdi-account-school mdi-code-tags
 ];
 
 const MESSAGES = {

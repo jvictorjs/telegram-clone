@@ -19,6 +19,7 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Accounts with profile pics [v0.2.0]
 - ✅ Group messages sender pic with account details [v0.2.1]
 - ✅ Data.js module (accounts, chats, messages) [v0.2.2]
+- ✅ Project getting big: css moved to index.css [v0.3.0]
 - Image messages
 - Audio messages
 - Send real messages to my telegram account

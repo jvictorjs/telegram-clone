@@ -5,7 +5,7 @@ Telegram messaging web app clone.
 
 Shows Telegram messages to anyone without an telegram access/account.
 
-![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-15%20200006.png?raw=true)
+![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-16%20202328.png?raw=true)
 
 
 ## TODO (changelog + backlog)
@@ -22,7 +22,7 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Project getting big: css moved to index.css [v0.3.0]
 - ✅ First Vue component: AboutDialog.vue [v0.3.1]
 - ✅ Telegram WebK version style/responsiveness adjustments [v0.4.0]
-- Scrollable chat list (overflow-y)
+- ✅ Scrollable chat list (overflow-y) [v0.4.1]
 - Image messages
 - Audio messages
 - Send real messages to my telegram account
@@ -31,5 +31,4 @@ Shows Telegram messages to anyone without an telegram access/account.
 - Change page title and icon
 - Chat title/pic bar in the top of messages container
 - Chat search (by title only)
-- Default messages container page (chat send msg hidden)
 - Chat details with Group chat members list with pic

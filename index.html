@@ -48,7 +48,7 @@
                                     </v-menu>
                                     <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
                                 </v-sheet>
-                                <v-sheet width="300">
+                                <v-sheet class="pt-2 overflow-y-auto " :max-height="$vuetify.breakpoint.height - 70" width="300">
                                     <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id" class="mx-2">
                                         <v-hover v-slot="{ hover }" open-delay="0">
                                             <v-sheet :class="'pa-1 my-0 rounded-lg v-sheet-pointer ' + (activeChatId === chat_id ? ' primary lighten-1 ' : hover ? ' grey lighten-3 ' : '')"
@@ -211,7 +211,7 @@
 
             data() {
                 return {
-                    version: 'v0.4.0', // TODO update the screenshot for README
+                    version: 'v0.4.1', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -256,9 +256,6 @@
                     this.chats.filter(item => item.id === chatId)[0].unreadMsgs = false;
                     // STACKOVERFLOW https://stackoverflow.com/questions/38399050/vue-equivalent-of-settimeout
                     setTimeout(() => this.scrollMessagesContainerToTheEnd(), 0);
-                },
-                testa() {
-                    console.log('tst')
                 },
                 scrollMessagesContainerToTheEnd() {
                     // STACKOVERFLOW https://stackoverflow.com/questions/40730116/scroll-to-bottom-of-div-with-vue-js

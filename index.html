@@ -20,7 +20,7 @@
                         <v-sheet elevation="10" class="align-center justify-center rounded-lg" width="100%" max-width="1200" min-width="500">
                             <v-sheet elevation="10" class="d-flex flex-column align-center justify-start light-blue lighten-5 rounded-lg" height="100%" max-height="100%">
                                 <v-sheet flat class="pa-3 telegram-color elevation-10 rounded-t-lg" width="100%">
-                                    <v-toolbar-title>Welcome to Fake Telegram! {{version}} {{$vuetify.breakpoint.width}}x{{$vuetify.breakpoint.height}}</v-toolbar-title>
+                                    <v-toolbar-title>Welcome to Telegram Web clone! {{version}} {{$vuetify.breakpoint.width}}x{{$vuetify.breakpoint.height}}</v-toolbar-title>
                                 </v-sheet>
                                 <v-sheet class="d-flex flex-row" width="100%">
                                     <v-sheet class="d-flex flex-column" id="left-container" width="255" height="100%">
@@ -45,7 +45,10 @@
                                                             </v-slider>
                                                         </v-sheet>
                                                     </v-sheet>
-                                                    <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-2 elevation-0"> Fake Telegram {{version}} </span>
+                                                    <v-sheet class="my-2">
+                                                        <about-dialog></about-dialog>
+                                                    </v-sheet>
+                                                    <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-1 elevation-0"> Telegram Web clone {{version}} </span>
                                                 </v-sheet>
                                             </v-menu>
                                             <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
@@ -202,7 +205,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script type="module">
+        import { AboutDialog } from "./components/AboutDialog.vue.js";
         import { ACCOUNTS, CHATS, MESSAGES } from "./data.js";
+
+        Vue.component("about-dialog", AboutDialog)
 
         new Vue({
             el: '#app',
@@ -210,16 +216,14 @@
 
             data() {
                 return {
-                    version: 'v0.3.0', // TODO update the screenshot for README
-                    tab: 'tab-0',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                    version: 'v0.3.1', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
                     isPlaySoundsSwitchOn: true,
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
-                    productionMode: false,
+                    isisProductionMode: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
                 }
@@ -241,7 +245,7 @@
                 setTimeout(() => this.addNewMessages3(), 3500);
                 setTimeout(() => this.addNewMessages4(), 4400);
                 setTimeout(() => this.addNewMessages5(), 5200);
-                if (this.productionMode) {
+                if (this.isProductionMode) {
                     setTimeout(() => this.addNewMessages6(), 5300);
                     setTimeout(() => this.addNewMessages7(), 5400);
                 }

@@ -20,6 +20,7 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Group messages sender pic with account details [v0.2.1]
 - ✅ Data.js module (accounts, chats, messages) [v0.2.2]
 - ✅ Project getting big: css moved to index.css [v0.3.0]
+- ✅ First Vue component: AboutDialog.vue [v0.3.1]
 - Image messages
 - Audio messages
 - Send real messages to my telegram account

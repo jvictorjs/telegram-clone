@@ -18,8 +18,10 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Settings > On/off notification sound switch [v0.1.8]
 - ✅ Accounts with profile pics [v0.2.0]
 - ✅ Group messages sender pic with account details [v0.2.1]
+- ✅ Data.js module (accounts, chats, messages) [v0.2.2]
 - Image messages
 - Audio messages
+- Send real messages to my telegram account
 - About text (project motivation/description)
 - Loading page (while download assets in the background)
 - Change page title and icon

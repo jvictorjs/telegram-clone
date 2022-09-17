@@ -17,7 +17,12 @@
             <v-main>
                 <template>
                     <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
-                        <v-sheet class="d-flex flex-row" height="100%" width="100%" max-width="1400" style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
+                        <v-sheet v-if="isProductionMode && isLoading" transition="fade-transition">
+                            loading...
+                            <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
+                        </v-sheet>
+                        <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
+                            style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
                             <v-sheet class="d-flex flex-column border-left" id="left-container" width="300" height="100%">
                                 <v-sheet class="pa-3 pb-4 d-flex" style="border-bottom: 1px solid ;border-color: rgba(0, 0, 0, 0.13);">
                                     <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
@@ -113,7 +118,8 @@
                                         </v-sheet>
                                         <v-sheet v-else-if="message.img_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
                                             <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
-                                            <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'"></msg-image>
+                                            <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
+                                            </msg-image>
                                         </v-sheet>
                                         <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
                                             <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
@@ -171,13 +177,14 @@
 
             data() {
                 return {
-                    version: 'v0.4.2', // TODO update the screenshot for README
+                    version: 'v0.4.3', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
                     isPlaySoundsSwitchOn: true,
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
+                    isLoading: true,
                     isProductionMode: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
@@ -190,20 +197,32 @@
                 }
             },
             created() {
-                this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
+                console.warn('created')
+                this.sortMessages();
             },
             mounted() {
                 console.warn('mounted')
-                //this.setActiveChatMessagesToShow(1);
-                setTimeout(() => this.addNewMessages1(), 0);
-                setTimeout(() => this.addNewMessages2(), 200);
-                setTimeout(() => this.addNewMessages3(), 3500);
-                setTimeout(() => this.addNewMessages4(), 4400);
-                setTimeout(() => this.addNewMessages5(), 5200);
-                if (this.isProductionMode) {
-                    setTimeout(() => this.addNewMessages6(), 5300);
-                    setTimeout(() => this.addNewMessages7(), 5400);
-                }
+                const img = new Image();
+                img.src = './img/telegram-backgroundZ.png';
+                img.onload = () => {
+                    window.onload = (event) => {
+                        console.log('page is fully loaded');
+                        let loadingTimeToWait = 500;
+                        setTimeout(() => {
+                            //this.setActiveChatMessagesToShow(1);
+                            this.isLoading = false;
+                            setTimeout(() => this.addNewMessages1(), 0);
+                            setTimeout(() => this.addNewMessages2(), 200);
+                            setTimeout(() => this.addNewMessages3(), 3500);
+                            setTimeout(() => this.addNewMessages4(), 4400);
+                            setTimeout(() => this.addNewMessages5(), 5200);
+                            if (this.isProductionMode) {
+                                setTimeout(() => this.addNewMessages6(), 5300);
+                                setTimeout(() => this.addNewMessages7(), 5400);
+                            }
+                        }, loadingTimeToWait);
+                    };
+                };
             },
             methods: {
                 buttonAction() {

@@ -24,10 +24,10 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ Telegram WebK version style/responsiveness adjustments [v0.4.0]
 - ✅ Scrollable chat list (overflow-y) [v0.4.1]
 - ✅ Image messages with viewer component [v0.4.2]
-- Audio messages
+- ✅ Loading page (while downloading assets in background) [v0.4.3]
+- Audio messages with player
 - Send real messages to my telegram account
 - About text (project motivation/description)
-- Loading page (while download assets in the background)
 - Change page title and icon
 - Chat title/pic bar in the top of messages container
 - Chat search (by title only)

@@ -27,8 +27,8 @@ const CHATS = [
 const MESSAGES = {
   1: [
     { chat_id: 1, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
-    { chat_id: 1, from: "service-msg", text: "jvictorjs added you", created_at: new Date(new Date() - 520000) },
     { chat_id: 1, from: 0, text: "text1", created_at: new Date() - 500000 },
+    { chat_id: 1, from: 1, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
   ],
   2: [
     { chat_id: 2, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
@@ -50,6 +50,7 @@ const MESSAGES = {
     { chat_id: 2, from: "self", text: "text18", created_at: new Date(new Date() - 15000) },
     { chat_id: 2, from: 0, text: "text19", created_at: new Date(new Date() - 13000) },
     { chat_id: 2, from: "self", text: "text20 text20 text20", created_at: new Date(new Date() - 10000) },
+    { chat_id: 2, from: 0, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
   ],
   3: [
     { chat_id: 3, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
@@ -92,6 +93,7 @@ const MESSAGES = {
       text: "@jvictorjs be welcome to the team! You are going to work with... ",
       created_at: new Date(2014, 3, 10, 10, 0, 0, 0),
     },
+    { chat_id: 6, from: 1, img_src: "ufpe.png", text: "image test", created_at: new Date(new Date() - 8000) },
     { chat_id: 6, from: 1, text: "And that is it (remove this msg later)", created_at: new Date() },
   ],
   7: [

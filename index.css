@@ -25,8 +25,8 @@ a {
 .messagesBackground::before {
   /* STACKOVERFLOW https://coder-coder.com/background-image-opacity/ */
   content: "";
-  background-color: black;
   background-image: url("img/telegram-backgroundZ.png");
+  background-size: cover;
   position: absolute;
   top: 0px;
   right: 0px;

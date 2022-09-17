@@ -17,7 +17,7 @@
             <v-main>
                 <template>
                     <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
-                        <v-sheet class="d-flex flex-row" height="100%" width="100%" max-width="1200" style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
+                        <v-sheet class="d-flex flex-row" height="100%" width="100%" max-width="1400" style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
                             <v-sheet class="d-flex flex-column border-left" id="left-container" width="300" height="100%">
                                 <v-sheet class="pa-3 pb-4 d-flex" style="border-bottom: 1px solid ;border-color: rgba(0, 0, 0, 0.13);">
                                     <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
@@ -82,7 +82,7 @@
                                     <v-btn class="mx-10 my-5" @click="buttonAction" v-ripple>ACTION</v-btn>
                                 </v-sheet>
                             </v-sheet>
-                            <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height" width="100%" max-width="900">
+                            <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height" width="100%" max-width="1100">
                                 <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
                                 <v-sheet class="mb-15 mt-2 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
                                     <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
@@ -111,56 +111,12 @@
                                                 </v-sheet>
                                             </v-sheet>
                                         </v-sheet>
+                                        <v-sheet v-else-if="message.img_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                            <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'"></msg-image>
+                                        </v-sheet>
                                         <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
-                                            <v-dialog width="320">
-                                                <template v-slot:activator="{ on, attrs }">
-                                                    <v-sheet v-if="activeChatId && chats[activeChatId-1].type === 'group'" class="elevation-0 transparent d-flex align-end justify-center py-1">
-                                                        <v-avatar class="mx-1 transparent elevation-2 rounded-circle d-flex align-center justify-center" width="52" height="52" v-bind="attrs" v-on="on"
-                                                            v-ripple>
-                                                            <v-sheet class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%" height="100%">
-                                                                <v-img :src="'./img/profile/sm_'+accounts[message.from].img_src" transition="fade-transition" />
-                                                            </v-sheet>
-                                                        </v-avatar>
-                                                    </v-sheet>
-                                                </template>
-                                                <template v-slot:default="dialog">
-                                                    <v-card class="white">
-                                                        <v-sheet class="d-flex flex-column align-center justify-center elevation-2" width="320" height="320">
-                                                            <v-img :src="'./img/profile/'+accounts[message.from].img_src" transition="scale-transition" width="100%" />
-                                                        </v-sheet>
-                                                        <v-sheet class="white pa-1">
-                                                            <v-hover v-slot="{ hover }">
-                                                                <a :href="'https://'+accounts[message.from].url" target="_blank">
-                                                                    <v-sheet :class="'py-2 my-1 rounded-lg d-flex flex-row'  + (hover ? ' grey lighten-2 ' : '')" v-ripple>
-                                                                        <v-sheet class="d-flex flex-column justify-center mx-5 transparent">
-                                                                            <v-icon color="grey" size="33">mdi-web</v-icon>
-                                                                        </v-sheet>
-                                                                        <v-sheet class="d-flex flex-column justify-center transparent">
-                                                                            <h3>{{accounts[message.from].url}}</h3>
-                                                                            <h5 class="grey--text">website </h4>
-                                                                        </v-sheet>
-                                                                    </v-sheet>
-                                                                </a>
-                                                            </v-hover>
-                                                            <v-hover v-slot="{ hover }">
-                                                                <a :href="'https://twitter.com/'+accounts[message.from].tw" target="_blank">
-                                                                    <v-sheet :class="'py-2 my-1 rounded-lg d-flex flex-row'  + (hover ? ' grey lighten-2 ' : '')" v-ripple>
-                                                                        <v-sheet class="d-flex flex-column justify-center mx-5 transparent">
-                                                                            <v-icon color="grey" size="33">mdi-twitter</v-icon>
-                                                                        </v-sheet>
-                                                                        <v-sheet class="d-flex flex-column justify-center transparent">
-                                                                            <h3>@{{accounts[message.from].tw}}</h3>
-                                                                            <h5 class="grey--text">twitter</h4>
-                                                                        </v-sheet>
-                                                                    </v-sheet>
-                                                                </a>
-                                                            </v-hover>
-                                                        </v-sheet>
-                                                    </v-card>
-                                                </template>
-                                            </v-dialog>
-
-
+                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
                                             <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="500">
                                                 <v-sheet v-if="activeChatId && chats[activeChatId-1].type === 'group'"
                                                     :class="'mx-2 mt-1 mb-n2 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + accounts[message.from].fontColor+'--text'">
@@ -200,10 +156,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script type="module">
-        import { AboutDialog } from "./components/AboutDialog.vue.js";
         import { ACCOUNTS, CHATS, MESSAGES } from "./data.js";
+        import { AboutDialog } from "./components/AboutDialog.vue.js";
+        import { AccountDetails } from "./components/AccountDetails.vue.js";
+        import { MsgImage } from "./components/MsgImage.vue.js";
 
         Vue.component("about-dialog", AboutDialog)
+        Vue.component("account-details", AccountDetails)
+        Vue.component("msg-image", MsgImage)
 
         new Vue({
             el: '#app',
@@ -211,7 +171,7 @@
 
             data() {
                 return {
-                    version: 'v0.4.1', // TODO update the screenshot for README
+                    version: 'v0.4.2', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],

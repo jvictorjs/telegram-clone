@@ -23,7 +23,7 @@ Shows Telegram messages to anyone without an telegram access/account.
 - ✅ First Vue component: AboutDialog.vue [v0.3.1]
 - ✅ Telegram WebK version style/responsiveness adjustments [v0.4.0]
 - ✅ Scrollable chat list (overflow-y) [v0.4.1]
-- Image messages
+- ✅ Image messages with viewer component [v0.4.2]
 - Audio messages
 - Send real messages to my telegram account
 - About text (project motivation/description)

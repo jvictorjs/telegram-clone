@@ -5,7 +5,7 @@ Telegram messaging web app clone.
 
 Shows Telegram messages to anyone without an telegram access/account.
 
-![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-16%20202328.png?raw=true)
+![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-16%20234152.png?raw=true)
 
 
 ## TODO (changelog + backlog)

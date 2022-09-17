@@ -29,6 +29,7 @@ const MESSAGES = {
     { chat_id: 1, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     { chat_id: 1, from: 0, text: "text1", created_at: new Date() - 500000 },
     { chat_id: 1, from: 1, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
+    { chat_id: 1, from: 1, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
   ],
   2: [
     { chat_id: 2, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
@@ -51,6 +52,7 @@ const MESSAGES = {
     { chat_id: 2, from: 0, text: "text19", created_at: new Date(new Date() - 13000) },
     { chat_id: 2, from: "self", text: "text20 text20 text20", created_at: new Date(new Date() - 10000) },
     { chat_id: 2, from: 0, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
+    { chat_id: 2, from: 0, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
   ],
   3: [
     { chat_id: 3, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },

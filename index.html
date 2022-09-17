@@ -121,6 +121,11 @@
                                             <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
                                             </msg-image>
                                         </v-sheet>
+                                        <v-sheet v-else-if="message.audio_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                            <msg-audio :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
+                                            </msg-audio>
+                                        </v-sheet>
                                         <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
                                             <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
                                             <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="500">
@@ -159,17 +164,19 @@
         </v-app>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
     <script type="module">
         import { ACCOUNTS, CHATS, MESSAGES } from "./data.js";
         import { AboutDialog } from "./components/AboutDialog.vue.js";
         import { AccountDetails } from "./components/AccountDetails.vue.js";
         import { MsgImage } from "./components/MsgImage.vue.js";
+        import { MsgAudio } from "./components/MsgAudio.vue.js";
 
         Vue.component("about-dialog", AboutDialog)
         Vue.component("account-details", AccountDetails)
         Vue.component("msg-image", MsgImage)
+        Vue.component("msg-audio", MsgAudio)
 
         new Vue({
             el: '#app',
@@ -177,7 +184,7 @@
 
             data() {
                 return {
-                    version: 'v0.4.3', // TODO update the screenshot for README
+                    version: 'v0.4.4', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],

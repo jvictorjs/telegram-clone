@@ -26,12 +26,14 @@ const CHATS = [
 
 const MESSAGES = {
   1: [
+    // "private chat 1"
     { chat_id: 1, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     { chat_id: 1, from: 0, text: "text1", created_at: new Date() - 500000 },
-    { chat_id: 1, from: 1, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
-    { chat_id: 1, from: 1, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
+    { chat_id: 1, from: 0, img_src: "jvictorjs2.png", text: "image text test", created_at: new Date(new Date() - 8000) },
+    { chat_id: 1, from: 0, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
   ],
   2: [
+    // "group chat 2"
     { chat_id: 2, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     { chat_id: 2, from: "service-msg", text: "jvictorjs added you", created_at: new Date(new Date() - 520000) },
     { chat_id: 2, from: "self", text: "text1", created_at: new Date(new Date() - 510000) },
@@ -55,12 +57,14 @@ const MESSAGES = {
     { chat_id: 2, from: 0, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
   ],
   3: [
+    // "private chat 3"
     { chat_id: 3, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     { chat_id: 3, from: "service-msg", text: "jvictorjs added you", created_at: new Date(new Date() - 520000) },
     { chat_id: 3, from: 0, text: "text3", created_at: new Date(new Date() - 10000) },
     { chat_id: 3, from: 0, text: "text3", created_at: new Date(new Date() - 10000) },
   ],
   4: [
+    // "private chat 4"
     { chat_id: 4, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     { chat_id: 4, from: "service-msg", text: "jvictorjs added you", created_at: new Date(new Date() - 520000) },
     { chat_id: 4, from: "self", text: "text4", created_at: new Date(new Date() - 10000) },
@@ -70,6 +74,7 @@ const MESSAGES = {
     { chat_id: 4, from: 0, text: "text4 text4 text4", created_at: new Date(new Date() - 10000) },
   ],
   5: [
+    // "jvictorjs"
     { chat_id: 5, from: "service-msg", text: "Jul 07", created_at: new Date(new Date() - 530000) },
     {
       chat_id: 5,
@@ -77,8 +82,10 @@ const MESSAGES = {
       text: "Hello! This is João Victor and welcome to my personal chat website (telegram clone). Feel free to interact with the page and send me a message anytime.\n\nAny text send here will reach to my real telegram account.",
       created_at: new Date(new Date() - 10000),
     },
+    { chat_id: 5, from: 0, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
   ],
   6: [
+    // "Experience"
     { chat_id: 6, from: "service-msg", text: "March 17, 1989", created_at: new Date(1989, 2, 17, 0, 0, 0, 0) },
     { chat_id: 6, from: 1, text: "Hello World!", created_at: new Date(1989, 2, 17, 10, 0, 0, 0) },
     { chat_id: 6, from: "service-msg", text: "September, 2007", created_at: new Date(2007, 8, 17, 0, 0, 0, 0) },
@@ -99,6 +106,7 @@ const MESSAGES = {
     { chat_id: 6, from: 1, text: "And that is it (remove this msg later)", created_at: new Date() },
   ],
   7: [
+    // "Course"
     { chat_id: 7, from: "service-msg", text: "September, 2020", created_at: new Date(1989, 2, 17, 0, 0, 0, 0) },
     {
       chat_id: 7,

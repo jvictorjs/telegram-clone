@@ -3,12 +3,12 @@ const MsgImage = {
   template: `
     <v-dialog v-model="dialog" overlay-opacity="1" fullscreen>
         <template v-slot:activator="{ on, attrs }">
-            <v-sheet class=" pb-0 message-other rounded-lg rounded-bl-0 elevation-0" max-width="400">
+            <v-sheet class=" pb-0 message-other rounded-lg rounded-bl-0 elevation-0" max-width="400" width="50%">
                 <v-sheet v-if="isNameVisible"
                     :class="'mx-2 mt-1 mb-n1 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + account.fontColor+'--text'">
                     {{account.name}}
                 </v-sheet>
-                <v-sheet class="ma-2 d-flex flex-column align-center justify-center elevation-0 rounded-lg" v-bind="attrs" v-on="on">
+                <v-sheet class="ma-2 elevation-0 rounded-lg" v-bind="attrs" v-on="on" >
                     <v-img :src="'./img/profile/'+message.img_src" class="rounded-lg" transition="scale-transition" />
                 </v-sheet>
                 <v-sheet class="px-2 mt-n1 transparent text-pre-wrap">{{i}} - <strong v-if="message.text.includes('@jvictorjs ')"

@@ -1,12 +1,12 @@
 const MsgAudio = {
   name: "MsgAudio",
   template: `
-    <v-sheet class=" pb-0 message-other rounded-lg rounded-bl-0 elevation-0" max-width="400">
+    <v-sheet class=" pb-0 message-other rounded-lg rounded-bl-0 elevation-0" max-width="400" width="50%">
         <v-sheet v-if="isNameVisible"
             :class="'mx-2 mt-1 mb-n1 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + account.fontColor+'--text'">
             {{account.name}}
         </v-sheet>
-        <v-sheet class="mx-2 my-1 d-flex flex-column align-center justify-center elevation-0 rounded-lg">
+        <v-sheet class="mx-2 my-1 elevation-0 rounded-lg">
             <audio style="display: none;" controls id="audio-player" :src="'./audio/'+message.audio_src" type="audio/mp3"></audio>
             <v-sheet class="d-flex flex-row elevation-0">
                 <v-sheet class="transparent d-flex align-end justify-center py-1">
@@ -15,9 +15,9 @@ const MsgAudio = {
                         <v-icon v-else dark size="33" @click="actionPlay"> mdi-play </v-icon>
                     </v-avatar>
                 </v-sheet>
-                <v-sheet class="d-flex flex-column justify-space-between elevation-0" width="300">
-                    <v-sheet class="my-auto pl-1 pt-3 mx-auto elevation-0" width="290" height="5">
-                        <v-progress-linear :value="audioProgress"></v-progress-linear>
+                <v-sheet class="d-flex flex-column justify-space-between elevation-0" width="100%">
+                    <v-sheet class="my-auto pl-2 pt-3 mx-auto elevation-0" width="100%" height="5">
+                        <v-progress-linear class="rounded-lg" :value="audioProgress" height=5></v-progress-linear>
                     </v-sheet>
                     <span class="mx-2 text-subtitle-2 grey--text font-weight-bold">{{audioCurrentTime+' / '+audioDuration}}</span>
                 </v-sheet>

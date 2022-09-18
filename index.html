@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Telegram Clone</title>
+    <title>jvictorjs</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="./img/icon/code-tags.png">
 </head>
 
 <body>
@@ -17,9 +18,12 @@
             <v-main>
                 <template>
                     <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
-                        <v-sheet v-if="isProductionMode && isLoading" transition="fade-transition">
-                            loading...
-                            <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
+                        <v-sheet v-if="isProductionMode && (!isStartButtonClicked || isLoading)" transition="fade-transition">
+                            <v-sheet v-if="isLoading">
+                                loading...
+                                <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
+                            </v-sheet>
+                            <v-btn v-else class="telegram-color" dark x-large @click="isStartButtonClicked = true;">START</v-btn>
                         </v-sheet>
                         <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
                             style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
@@ -150,9 +154,9 @@
                                     style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
                                     <v-sheet class="white rounded-lg rounded-br-0" width="100%">
                                         <v-text-field class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled clear-icon="mdi-close-circle" type="text"
-                                            solo single-line dense @keyup.enter="addMessageToChat" hide-details />
+                                            solo single-line dense @keyup.enter="addNewMessageToChat" hide-details />
                                     </v-sheet>
-                                    <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addMessageToChat">
+                                    <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addNewMessageToChat">
                                         <v-icon color="white">mdi-send</v-icon>
                                     </v-sheet>
                                 </v-sheet>
@@ -184,7 +188,7 @@
 
             data() {
                 return {
-                    version: 'v0.4.4', // TODO update the screenshot for README
+                    version: 'v0.4.5', // TODO update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -193,6 +197,7 @@
                     newMessageInputText: '',
                     isLoading: true,
                     isProductionMode: false,
+                    isStartButtonClicked: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
                 }
@@ -218,14 +223,17 @@
                         setTimeout(() => {
                             //this.setActiveChatMessagesToShow(1);
                             this.isLoading = false;
-                            setTimeout(() => this.addNewMessages1(), 0);
-                            setTimeout(() => this.addNewMessages2(), 200);
-                            setTimeout(() => this.addNewMessages3(), 3500);
-                            setTimeout(() => this.addNewMessages4(), 4400);
-                            setTimeout(() => this.addNewMessages5(), 5200);
+                            setTimeout(() => this.addMessages(1, false), 0);
+                            setTimeout(() => this.addMessages(2, true), 200);
+                            setTimeout(() => this.addMessages(3, true), 3500);
+                            setTimeout(() => this.addMessages(4, true), 4400);
+                            setTimeout(() => this.addMessages(5, true), 5200);
                             if (this.isProductionMode) {
-                                setTimeout(() => this.addNewMessages6(), 5300);
-                                setTimeout(() => this.addNewMessages7(), 5400);
+                                setTimeout(() => this.addMessages(6, true), 5300);
+                                setTimeout(() => this.addMessages(7, true), 5400);
+                            } else {
+                                document.title = "Telegram Clone"
+                                document.querySelector("link[rel*='icon']").href = "./img/icon/favicon-192x192.png";
                             }
                         }, loadingTimeToWait);
                     };
@@ -252,7 +260,7 @@
                 sortMessages() {
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                 },
-                addMessageToChat() {
+                addNewMessageToChat() {
                     if (this.newMessageInputText) {
                         console.log('adding new msg...' + this.newMessageInputText)
                         this.messages.push({ chat_id: this.activeChatId, from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()) })
@@ -260,40 +268,12 @@
                         this.newMessageInputText = ''
                     }
                 },
-                addNewMessages1() {
-                    this.messages = this.messages.concat(MESSAGES[1])
+                addMessages(messagesDataSequentialNumber, isPlaySound) {
+                    this.messages = this.messages.concat(MESSAGES[messagesDataSequentialNumber])
                     this.sortMessages()
-                    //this.playNotificationSound();
-                },
-                addNewMessages2() {
-                    this.messages = this.messages.concat(MESSAGES[2])
-                    this.sortMessages()
-                    this.playNotificationSound();
-                },
-                addNewMessages3() {
-                    this.messages = this.messages.concat(MESSAGES[3])
-                    this.sortMessages()
-                    this.playNotificationSound();
-                },
-                addNewMessages4() {
-                    this.messages = this.messages.concat(MESSAGES[4])
-                    this.sortMessages()
-                    this.playNotificationSound();
-                },
-                addNewMessages5() {
-                    this.messages = this.messages.concat(MESSAGES[5]);
-                    this.sortMessages()
-                    this.playNotificationSound();
-                },
-                addNewMessages6() {
-                    this.messages = this.messages.concat(MESSAGES[6]);
-                    this.sortMessages()
-                    this.playNotificationSound();
-                },
-                addNewMessages7() {
-                    this.messages = this.messages.concat(MESSAGES[7]);
-                    this.sortMessages()
-                    this.playNotificationSound();
+                    if (isPlaySound) {
+                        this.playNotificationSound();
+                    }
                 },
                 playNotificationSound() {
                     // TODO change color of TODO TREE HIGHLIGHTER STACKOVERFLOW diffent of TODO
@@ -325,7 +305,5 @@
             }
         })
     </script>
-
 </body>
-
 </html>

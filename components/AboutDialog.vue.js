@@ -13,8 +13,8 @@ const AboutDialog = {
           Responsive web page built from scratch with <b>VUE.JS</b>, using <b>JAVASCRIPT</b>, <b>HTML</b> and <b>CSS</b>. In addition, to faster and beauty
           design I used <b>VUETIFY</b> UI library and some <b>MATERIAL DESIGN ICONS</b>. Hosted in a Linux <b>UBUNTU</b> dedicated server at
           <b>DIGITALOCEAN</b> cloud infraestructure. Version control by <b>GIT</b> and <b>GITHUB</b>. Reverse proxy with <b>NGINX</b>.
-          <b>SSL</b> certification with <b>CERTBOT</b> and Linux process management with <b>PM2</b>. <br />Screen res:
-          {{ $vuetify.breakpoint.width }}x{{ $vuetify.breakpoint.height }} <br /><br />No data is collected from your device.
+          <b>SSL</b> certification with <b>CERTBOT</b> and Linux process management with <b>PM2</b>. | Screen res:
+          {{ $vuetify.breakpoint.width }}x{{ $vuetify.breakpoint.height }} <br />
         </v-sheet>
         <v-sheet class="mt-3 text-caption text-center"> 2022 <a href="https://github.com/jvictorjs" target="_blank">@jvictorjs</a> </v-sheet>
       </v-card-text>

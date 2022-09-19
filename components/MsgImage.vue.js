@@ -9,10 +9,9 @@ const MsgImage = {
                     {{account.name}}
                 </v-sheet>
                 <v-sheet class="ma-2 elevation-0 rounded-lg" v-bind="attrs" v-on="on" >
-                    <v-img :src="'./img/profile/'+message.img_src" class="rounded-lg" transition="scale-transition" />
+                    <v-img :src="'./img/profile/'+message.img_src" class="rounded-lg" />
                 </v-sheet>
-                <v-sheet class="px-2 mt-n1 transparent text-pre-wrap">{{i}} - <strong v-if="message.text.includes('@jvictorjs ')"
-                        class="blue--text">@jvictorjs</strong>{{message.text.replace('@jvictorjs ',' ')}}</v-sheet>
+                <v-sheet class="px-2 mt-n1 transparent text-wrap" v-html="message.text"></v-sheet>
                 <v-sheet class="d-flex flex-row transparent justify-end">
                     <v-sheet
                         :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
@@ -30,9 +29,7 @@ const MsgImage = {
                         <v-img :src="'./img/profile/'+message.img_src" transition="scale-transition" />
                     </v-sheet>
                     <v-sheet class="d-flex flex-column align-center transparent white--text pa-2">
-                        <v-sheet class="text-center white--text transparent" width="500">
-                            {{message.text}}
-                        </v-sheet>
+                        <v-sheet class="text-center white--text transparent text-wrap" width="500" v-html="message.text"></v-sheet>
                     </v-sheet>
                 </v-sheet>
             </v-card-text>

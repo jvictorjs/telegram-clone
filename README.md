@@ -4,7 +4,7 @@ Telegram messaging web app clone MVP.
 
 Emulates the Telegram WebK version. No account needed. Send real messages.
 
-![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-17%20192331.png?raw=true)
+![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-19%20004305?raw=true)
 
 
 ## About Telegram
@@ -40,9 +40,9 @@ https://en.wikipedia.org/wiki/Telegram_(software)
 - ✅ Audio messages player component [v0.4.4]
 - ✅ Change page title and icon [0.4.5]
 - ✅ Send real messages to Telegram account [0.5.0]
-- HTML tags inside message body using the v-html directive
+- ✅ Message body HTML tags support using the v-html directive [0.5.1]
 - Mobile alert: ask to rotate screen
-- README.md full project description with details
+- README.md full project description details with demo video
 - About text (project motivation/description)
 - Chat title/pic bar in the top of messages container
 - Chat search (by title only)
@@ -51,4 +51,7 @@ https://en.wikipedia.org/wiki/Telegram_(software)
 
 ## Test yourself
 https://jvictor.com.br
+
+https://user-images.githubusercontent.com/28718999/190947366-727967c4-ff9e-4846-a71a-4073b2622779.mp4
+
 >Responsive web page built from scratch with <b>VUE.JS</b>, using <b>JAVASCRIPT</b>, <b>HTML</b> and <b>CSS</b>. In addition, to faster and beauty design I used <b>VUETIFY</b> UI library and some <b>MATERIAL DESIGN ICONS</b>. Hosted in a Linux <b>UBUNTU</b> dedicated server at <b>DIGITALOCEAN</b> cloud infraestructure. Version control by <b>GIT</b> and <b>GITHUB</b>. Reverse proxy with <b>NGINX</b>. SSL certification with <b>CERTBOT</b> and Linux process management with <b>PM2</b>.

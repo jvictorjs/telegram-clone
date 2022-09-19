@@ -99,9 +99,7 @@
                                         <v-sheet v-if="message.from === 'self'" :class="'d-flex transparent elevation-0 px-2 pb-1 mr-2 flex-row-reverse ml-10 '" width="100%"
                                             style="position: relative;">
                                             <v-sheet :class="'message-self rounded-lg rounded-br-0 '" max-width="500">
-                                                <v-sheet class="px-2 pt-1 transparent">
-                                                    {{i}} - {{message.text}}
-                                                </v-sheet>
+                                                <v-sheet class="px-2 pt-1 transparent"> {{message.text}} </v-sheet>
                                                 <v-sheet class="d-flex flex-row transparent justify-end">
                                                     <v-sheet
                                                         :class="'mt-n1 mb-0 ml-2 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
@@ -138,8 +136,7 @@
                                                     :class="'mx-2 mt-1 mb-n2 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + accounts[message.from].fontColor+'--text'">
                                                     {{accounts[message.from].name}}
                                                 </v-sheet>
-                                                <v-sheet class="px-2 pt-2 transparent text-pre-wrap">{{i}} - <strong v-if="message.text.includes('@jvictorjs ')"
-                                                        class="blue--text">@jvictorjs</strong>{{message.text.replace('@jvictorjs ',' ')}}</v-sheet>
+                                                <v-sheet class="px-2 pt-2 transparent text-wrap" v-html="message.text"></v-sheet>
                                                 <v-sheet class="d-flex flex-row transparent justify-end">
                                                     <v-sheet
                                                         :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
@@ -172,7 +169,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
     <script type="module">
-        import { ACCOUNTS, CHATS, MESSAGES } from "./data.js";
+        import { ACCOUNTS, CHATS, MESSAGES, JVICTOR_JS_TEXT_MENTION_HTML } from "./data.js";
         import { AboutDialog } from "./components/AboutDialog.vue.js";
         import { AccountDetails } from "./components/AccountDetails.vue.js";
         import { MsgImage } from "./components/MsgImage.vue.js";
@@ -189,7 +186,7 @@
 
             data() {
                 return {
-                    version: 'v0.5.0', // TODO every new version: update the screenshot for README
+                    version: 'v0.5.1', // TODO every new version: update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -197,7 +194,7 @@
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
                     isLoading: true,
-                    isProductionMode: true,
+                    isProductionMode: false,
                     isSendRealTelegramMessages: true,
                     isStartButtonClicked: false,
                     chats: CHATS,
@@ -257,9 +254,10 @@
                                     if (newMessageData.chat_id) {
                                         this.removeIsSendingKeyFromMessageData(newMessageData.created_at)
                                         const RESPONSE_OF_NEW_MSG_DATA = {
-                                            chat_id: newMessageData.chat_id, 
+                                            chat_id: newMessageData.chat_id,
                                             from: 1,
-                                            text: 'Your message was sent to @jvictorjs Telegram account:\n' + newMessageData.text,
+                                            text: 'Your message was sent to ' + JVICTOR_JS_TEXT_MENTION_HTML + ' Telegram account:'
+                                                + '<br><i>"' + newMessageData.text + '"</i>',
                                             created_at: new Date(new Date())
                                         };
                                         this.messages.push(RESPONSE_OF_NEW_MSG_DATA)

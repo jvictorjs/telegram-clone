@@ -23,8 +23,7 @@ const MsgAudio = {
                 </v-sheet>
             </v-sheet>
         </v-sheet>
-        <v-sheet class="px-2 mt-1 transparent text-pre-wrap">{{i}} - <strong v-if="message.text.includes('@jvictorjs ')"
-                class="blue--text">@jvictorjs</strong>{{message.text.replace('@jvictorjs ',' ')}}</v-sheet>
+        <v-sheet class="px-2 mt-1 transparent text-wrap" v-html="message.text"></v-sheet>
         <v-sheet class="d-flex flex-row transparent justify-end">
             <v-sheet
                 :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"

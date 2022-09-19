@@ -4,7 +4,7 @@ Telegram messaging web app clone MVP.
 
 Emulates the Telegram WebK version. No account needed. Send real messages.
 
-![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-19%20004305?raw=true)
+![alt text](https://github.com/jvictorjs/telegram-clone/blob/main/screenshots/Screenshot%202022-09-19%20004305.png?raw=true)
 
 
 ## About Telegram

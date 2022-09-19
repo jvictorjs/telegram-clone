@@ -55,7 +55,7 @@ const MsgAudio = {
         this.audio = document.getElementById("audio-player");
         this.audio.onloadeddata = (event) => {
           this.audioDuration = "0:" + (this.audio.duration < 10 ? "0" : "") + Math.floor(this.audio.duration);
-          console.log("loadeddata | " + this.audioDuration);
+          //console.log("loadeddata | " + this.audioDuration);
         };
         this.audio.ontimeupdate = (event) => {
           this.audioCurrentTime = "0:" + (this.audio.currentTime < 10 ? "0" : "") + Math.floor(this.audio.currentTime);

@@ -39,7 +39,7 @@ const MsgImage = {
         </v-card>
     </v-dialog>
     `,
-  props: ["account","message", "i", "isNameVisible"],
+  props: ["account", "message", "i", "isNameVisible"],
   data() {
     return {
       dialog: false,

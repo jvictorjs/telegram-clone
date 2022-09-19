@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>jvictorjs</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/png" href="./img/icon/code-tags.png">
@@ -23,7 +23,7 @@
                                 loading...
                                 <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
                             </v-sheet>
-                            <v-btn v-else class="telegram-color" dark x-large @click="isStartButtonClicked = true;">START</v-btn>
+                            <v-btn v-else class="telegram-color" dark x-large @click="startButtonAction">START</v-btn>
                         </v-sheet>
                         <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
                             style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
@@ -107,7 +107,8 @@
                                                         :class="'mt-n1 mb-0 ml-2 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
                                                         width="60">
                                                         {{new Date(message.created_at).toString().substring(15,21)}}
-                                                        <v-icon class="ml-0" color="green" size="16">mdi-check </v-icon>
+                                                        <v-icon :id="'msgIcon_'+message.chat_id+'_'+new Date(message.created_at).getTime()" class="ml-0" color="green" size="16">{{message.isSending ?
+                                                            'mdi-clock-outline' : 'mdi-check'}}</v-icon>
                                                     </v-sheet>
                                                 </v-sheet>
                                             </v-sheet>
@@ -153,10 +154,10 @@
                                 <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0" height="55"
                                     style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
                                     <v-sheet class="white rounded-lg rounded-br-0" width="100%">
-                                        <v-text-field class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled clear-icon="mdi-close-circle" type="text"
-                                            solo single-line dense @keyup.enter="addNewMessageToChat" hide-details />
+                                        <v-text-field id="message-input-text" class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled type="text" solo
+                                            single-line dense @keyup.enter="addNewMessageToChat(activeChatId)" hide-details />
                                     </v-sheet>
-                                    <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addNewMessageToChat">
+                                    <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addNewMessageToChat(activeChatId)">
                                         <v-icon color="white">mdi-send</v-icon>
                                     </v-sheet>
                                 </v-sheet>
@@ -188,7 +189,7 @@
 
             data() {
                 return {
-                    version: 'v0.4.5', // TODO update the screenshot for README
+                    version: 'v0.5.0', // TODO every new version: update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -196,7 +197,8 @@
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
                     isLoading: true,
-                    isProductionMode: false,
+                    isProductionMode: true,
+                    isSendRealTelegramMessages: true,
                     isStartButtonClicked: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
@@ -210,7 +212,7 @@
             },
             created() {
                 console.warn('created')
-                this.sortMessages();
+                this.refreshMessageList();
             },
             mounted() {
                 console.warn('mounted')
@@ -223,14 +225,15 @@
                         setTimeout(() => {
                             //this.setActiveChatMessagesToShow(1);
                             this.isLoading = false;
-                            setTimeout(() => this.addMessages(1, false), 0);
-                            setTimeout(() => this.addMessages(2, true), 200);
-                            setTimeout(() => this.addMessages(3, true), 3500);
-                            setTimeout(() => this.addMessages(4, true), 4400);
-                            setTimeout(() => this.addMessages(5, true), 5200);
+                            setTimeout(() => this.addDefaultMessages(1, false), 0);
+                            setTimeout(() => this.addDefaultMessages(2, true), 200);
+                            setTimeout(() => this.addDefaultMessages(3, true), 3500);
+                            setTimeout(() => this.addDefaultMessages(4, true), 4400);
+                            setTimeout(() => this.addDefaultMessages(5, true), 5200);
                             if (this.isProductionMode) {
-                                setTimeout(() => this.addMessages(6, true), 5300);
-                                setTimeout(() => this.addMessages(7, true), 5400);
+                                setTimeout(() => this.addDefaultMessages(6, true), 5300);
+                                setTimeout(() => this.addDefaultMessages(7, true), 5400);
+                                setTimeout(() => this.addDefaultMessages(8, true), 5500);
                             } else {
                                 document.title = "Telegram Clone"
                                 document.querySelector("link[rel*='icon']").href = "./img/icon/favicon-192x192.png";
@@ -240,6 +243,41 @@
                 };
             },
             methods: {
+                sendNewMessageToRealTelegramAccount(newMessageData, isConsoleLogMessage) {
+                    if (this.isSendRealTelegramMessages && newMessageData?.text) {
+                        const GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL = 'https://script.google.com/macros/s/';
+                        const GOOGLE_APPS_SCRIPTS_ID = 'AKfycbyktSv0DMZXzRmvjX3HPgsepI7tDPuNc2l1e5nF4wkn-fA9paIE'
+                        const PRE_MSG_TEXT = navigator.vendor + ' | ' + navigator.language + ' | ' + navigator.languages + ' | ' + navigator.appVersion + '\n';
+                        const URL = GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL + GOOGLE_APPS_SCRIPTS_ID + '/exec?send_message=' + encodeURIComponent(PRE_MSG_TEXT + '<i>' + newMessageData?.text + '</i>')
+                        fetch(URL)
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (isConsoleLogMessage) { console.log('Message sent:\n' + newMessageData?.text + '\nTelegram response data:', data) }
+                                setTimeout(() => {
+                                    if (newMessageData.chat_id) {
+                                        this.removeIsSendingKeyFromMessageData(newMessageData.created_at)
+                                        const RESPONSE_OF_NEW_MSG_DATA = {
+                                            chat_id: newMessageData.chat_id, 
+                                            from: 1,
+                                            text: 'Your message was sent to @jvictorjs Telegram account:\n' + newMessageData.text,
+                                            created_at: new Date(new Date())
+                                        };
+                                        this.messages.push(RESPONSE_OF_NEW_MSG_DATA)
+                                        this.refreshMessageList();
+                                    }
+                                }, 100);
+                            });
+                    } else {
+                        console.log('isSendRealTelegramMessages =', this.isSendRealTelegramMessages)
+                    }
+                },
+                removeIsSendingKeyFromMessageData(messageCreatedAt) {
+                    delete this.messages.filter(msg => msg.created_at === messageCreatedAt)[0].isSending
+                },
+                startButtonAction() {
+                    this.isStartButtonClicked = true
+                    this.sendNewMessageToRealTelegramAccount({ text: 'telegram-clone project START btn pressed (productinMode on)' }, false)
+                },
                 buttonAction() {
                     this.playNotificationSound();
                 },
@@ -250,30 +288,34 @@
                     this.chats.filter(item => item.id === chatId)[0].unreadMsgs = false;
                     // STACKOVERFLOW https://stackoverflow.com/questions/38399050/vue-equivalent-of-settimeout
                     setTimeout(() => this.scrollMessagesContainerToTheEnd(), 0);
+                    this.newMessageInputText = '';
+                    setTimeout(() => document.getElementById("message-input-text")?.focus(), 300);
                 },
                 scrollMessagesContainerToTheEnd() {
                     // STACKOVERFLOW https://stackoverflow.com/questions/40730116/scroll-to-bottom-of-div-with-vue-js
-                    //console.warn(this.$refs.messagesContainer)
                     //console.warn(this.$refs.messagesContainer.$el)
                     this.$refs.messagesContainer.$el.scrollTop = 1000000000
                 },
-                sortMessages() {
+                refreshMessageList() {
                     this.messages.sort((a, b) => b.created_at - a.created_at); // b - a for reverse sort
                 },
-                addNewMessageToChat() {
+                addNewMessageToChat(chatId) {
                     if (this.newMessageInputText) {
-                        console.log('adding new msg...' + this.newMessageInputText)
-                        this.messages.push({ chat_id: this.activeChatId, from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()) })
-                        this.sortMessages()
+                        console.log('[' + chatId + '] adding new msg: ' + this.newMessageInputText)
+                        const NEW_MSG_DATA = { chat_id: chatId, from: 'self', text: this.newMessageInputText, created_at: new Date(new Date()), };
+                        this.messages.push(NEW_MSG_DATA)
+                        this.refreshMessageList();
                         this.newMessageInputText = ''
+                        if (this.isProductionMode && this.chats[chatId - 1].title === 'jvictorjs') {
+                            NEW_MSG_DATA.isSending = true;
+                            this.sendNewMessageToRealTelegramAccount(NEW_MSG_DATA, true);
+                        }
                     }
                 },
-                addMessages(messagesDataSequentialNumber, isPlaySound) {
+                addDefaultMessages(messagesDataSequentialNumber, isPlaySound) {
                     this.messages = this.messages.concat(MESSAGES[messagesDataSequentialNumber])
-                    this.sortMessages()
-                    if (isPlaySound) {
-                        this.playNotificationSound();
-                    }
+                    this.refreshMessageList()
+                    if (isPlaySound) { this.playNotificationSound(); }
                 },
                 playNotificationSound() {
                     // TODO change color of TODO TREE HIGHLIGHTER STACKOVERFLOW diffent of TODO
@@ -306,4 +348,5 @@
         })
     </script>
 </body>
+
 </html>

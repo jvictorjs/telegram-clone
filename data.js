@@ -22,6 +22,7 @@ const CHATS = [
   { id: 5, title: "jvictorjs", type: "private", img_type: "pic", img_src: "jvictorjs.jpg", unreadMsgs: true },
   { id: 6, title: "Experience", type: "group", img_type: "icon", img_src: "mdi-briefcase", unreadMsgs: true },
   { id: 7, title: "Course", type: "group", img_type: "icon", img_src: "mdi-account-school", unreadMsgs: true }, // mdi-school mdi-account-school mdi-code-tags
+  { id: 8, title: "Skills", type: "group", img_type: "icon", img_src: "mdi-code-tags", unreadMsgs: true }, // mdi-tool mdi-toolbox mdi-code-tags
 ];
 
 const MESSAGES = {
@@ -79,10 +80,16 @@ const MESSAGES = {
     {
       chat_id: 5,
       from: 1,
-      text: "Hello! This is João Victor and welcome to my personal chat website (telegram clone). Feel free to interact with the page and send me a message anytime.\n\nAny text send here will reach to my real telegram account.",
+      text: "Hello! This is João Victor and welcome to my personal chat website (telegram clone). Feel free to interact with the page and send me a message anytime.",
       created_at: new Date(new Date() - 10000),
     },
-    { chat_id: 5, from: 0, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
+    { chat_id: 5, from: 1, audio_src: "test_audio.ogg", text: "audio text test", created_at: new Date(new Date() - 7000) },
+    {
+      chat_id: 5,
+      from: 1,
+      text: "Any text send here will reach to my real telegram account.",
+      created_at: new Date(new Date() - 6000),
+    },
   ],
   6: [
     // "Experience"
@@ -116,7 +123,15 @@ const MESSAGES = {
     },
     { chat_id: 7, from: 1, text: "And that is it (remove this msg later)", created_at: new Date() },
   ],
-  8: [],
-  9: [],
-  10: [],
+  8: [
+    // "Skills"
+    { chat_id: 8, from: "service-msg", text: "September, 2020", created_at: new Date(1989, 2, 17, 0, 0, 0, 0) },
+    {
+      chat_id: 8,
+      from: 1,
+      text: "Released my first YouTube Tutorial... I have a course page that has still some lessons to be released...",
+      created_at: new Date(1989, 2, 17, 10, 0, 0, 0),
+    },
+    { chat_id: 8, from: 1, text: "And that is it (remove this msg later)", created_at: new Date() },
+  ],
 };

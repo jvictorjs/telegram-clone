@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>jvictorjs</title>
+    <title>JVictor</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
@@ -18,144 +18,160 @@
             <v-main>
                 <template>
                     <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
-                        <v-sheet v-if="isProductionMode && (!isStartButtonClicked || isLoading)" transition="fade-transition">
-                            <v-sheet v-if="isLoading">
-                                loading...
-                                <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
+                        <v-sheet v-if="isMobile" class="d-flex flex-column align-center transparent elevation-0">
+                            <v-sheet class="my-3 pa-3 text-center rounded-lg elevation-2 mx-auto" max-width="300">
+                                PLEASE ROTATE YOUR DEVICE
+                                <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
                             </v-sheet>
-                            <v-btn v-else class="telegram-color" dark x-large @click="startButtonAction">START</v-btn>
+                            <v-sheet class="mt-10 text-center transparent grey--text text--darken-2" max-width="300">
+                                For better user experience, it is recommended to open this website in a desktop device with 1024x768 as a minimum screen resolution.
+                            </v-sheet>
                         </v-sheet>
-                        <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
-                            style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
-                            <v-sheet class="d-flex flex-column border-left" id="left-container" width="300" height="100%">
-                                <v-sheet class="pa-3 pb-4 d-flex" style="border-bottom: 1px solid ;border-color: rgba(0, 0, 0, 0.13);">
-                                    <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn class="mr-1" v-bind="attrs" v-on="on" icon>
-                                                <v-icon>mdi-menu</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <v-sheet class="d-flex flex-column align-center justify-center pa-2 rounded-lg menu grey--text elevation-0" width="282">
-                                            <v-sheet class="d-flex flex-row align-center justify-space-around text-center pa-2 elevation-0 grey--text font-weight-medium">
-                                                Notification Sounds
-                                                <v-sheet class=" ml-2  d-flex flex-column align-center justify-center elevation-0 " width="89">
-                                                    <v-switch v-model="isPlaySoundsSwitchOn" class="mt-0 ml-5" inset dense hide-spin-buttons hide-details></v-switch>
-                                                </v-sheet>
-                                            </v-sheet>
-                                            <v-sheet class="d-flex flex-row align-center justify-space-around  elevation-0 pa-2 grey--text font-weight-medium">
-                                                Background opacity
-                                                <v-sheet class="ml-2 elevation-0" width="89">
-                                                    <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.42" max="1" inverse-label step="0.01" hide-details>
-                                                    </v-slider>
-                                                </v-sheet>
-                                            </v-sheet>
-                                            <v-sheet class="my-2">
-                                                <about-dialog></about-dialog>
-                                            </v-sheet>
-                                            <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-1 elevation-0"> Telegram Web clone {{version}} </span>
-                                        </v-sheet>
-                                    </v-menu>
-                                    <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
+                        <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400">
+                            <v-sheet v-if="isProductionMode && (!isStartButtonClicked || isLoading)" transition="fade-transition">
+                                <v-sheet v-if="isLoading">
+                                    loading...
+                                    <v-progress-linear indeterminate class="telegram-color"></v-progress-linear>
                                 </v-sheet>
-                                <v-sheet class="pt-2 overflow-y-auto " :max-height="$vuetify.breakpoint.height - 70" width="300">
-                                    <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id" class="mx-2">
-                                        <v-hover v-slot="{ hover }" open-delay="0">
-                                            <v-sheet :class="'pa-1 my-0 rounded-lg v-sheet-pointer ' + (activeChatId === chat_id ? ' primary lighten-1 ' : hover ? ' grey lighten-3 ' : '')"
-                                                @click="setActiveChatMessagesToShow(chat_id)" v-ripple>
-                                                <v-sheet class="d-flex text-left transparent py-1" min-width="222">
-                                                    <v-avatar class="mr-2 telegram-color elevation-1 rounded-circle d-flex align-center justify-center" width="52" height="52">
-                                                        <v-icon v-if="chats[chat_id-1].img_type === 'icon'" size="33">
-                                                            {{chats[chat_id-1].img_src}}
-                                                        </v-icon>
-                                                        <v-sheet v-else class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%" height="100%">
-                                                            <v-img :src="'./img/profile/sm_'+chats[chat_id-1].img_src" transition="scale-transition" />
-                                                        </v-sheet>
-                                                    </v-avatar>
-                                                    <v-sheet class="d-flex justify-center align-center transparent">
-                                                        <v-sheet :class="'d-flex transparent elevation-0 '+(activeChatId === chat_id ? 'white--text' :' ')" width="170">
-                                                            <span class="text-subtitle font-weight-bold"> {{chats[chat_id-1].title}}</span>
-                                                        </v-sheet>
-                                                        <v-sheet class="d-flex flex-column justify-center align-center transparent">
-                                                            <v-sheet :class="'transparent text-caption font-weight-medium  '+ (activeChatId === chat_id ? 'white--text' :'grey--text')">
-                                                                {{new Date(messages.filter(msg => msg.chat_id === chat_id).shift().created_at).toString().substring(15,21)}}
-                                                            </v-sheet>
-                                                            <v-sheet class="px-2 d-flex transparent rounded-xl green lighten-1 text-subtitle-2" dark>
-                                                                {{chats[chat_id-1].unreadMsgs ? '...' : ''}}
-                                                            </v-sheet>
-                                                        </v-sheet>
-                                                    </v-sheet>
-                                                </v-sheet>
-                                            </v-sheet>
-                                        </v-hover>
-                                    </v-sheet>
-                                    <v-btn class="mx-10 my-5" @click="buttonAction" v-ripple>ACTION</v-btn>
-                                </v-sheet>
+                                <v-btn v-else class="telegram-color" dark x-large @click="startButtonAction">START</v-btn>
                             </v-sheet>
-                            <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height" width="100%" max-width="1100">
-                                <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
-                                <v-sheet class="mb-15 mt-2 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
-                                    <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
-                                        width="100%">
-                                        <v-sheet v-if="message.from === 'self'" :class="'d-flex transparent elevation-0 px-2 pb-1 mr-2 flex-row-reverse ml-10 '" width="100%"
-                                            style="position: relative;">
-                                            <v-sheet :class="'message-self rounded-lg rounded-br-0 '" max-width="500">
-                                                <v-sheet class="px-2 pt-1 transparent"> {{message.text}} </v-sheet>
-                                                <v-sheet class="d-flex flex-row transparent justify-end">
-                                                    <v-sheet
-                                                        :class="'mt-n1 mb-0 ml-2 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
-                                                        width="60">
-                                                        {{new Date(message.created_at).toString().substring(15,21)}}
-                                                        <v-icon :id="'msgIcon_'+message.chat_id+'_'+new Date(message.created_at).getTime()" class="ml-0" color="green" size="16">{{message.isSending ?
-                                                            'mdi-clock-outline' : 'mdi-check'}}</v-icon>
+                            <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400"
+                                style="border-left: 1px solid;border-color: rgba(0, 0, 0, 0.13);">
+                                <v-sheet class="d-flex flex-column border-left" id="left-container" width="300" height="100%">
+                                    <v-sheet class="pa-3 pb-4 d-flex" style="border-bottom: 1px solid ;border-color: rgba(0, 0, 0, 0.13);">
+                                        <v-menu offset-y content-class="rounded-lg elevation-10 menu" :close-on-content-click="false">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn class="mr-1" v-bind="attrs" v-on="on" icon>
+                                                    <v-icon>mdi-menu</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-sheet class="d-flex flex-column align-center justify-center pa-2 rounded-lg menu grey--text elevation-0" width="282">
+                                                <v-sheet class="d-flex flex-row align-center justify-space-around text-center pa-2 elevation-0 grey--text font-weight-medium">
+                                                    Notification Sounds
+                                                    <v-sheet class=" ml-2  d-flex flex-column align-center justify-center elevation-0 " width="89">
+                                                        <v-switch v-model="isPlaySoundsSwitchOn" class="mt-0 ml-5" inset dense hide-spin-buttons hide-details></v-switch>
                                                     </v-sheet>
                                                 </v-sheet>
-                                            </v-sheet>
-                                        </v-sheet>
-                                        <v-sheet v-else-if="message.from === 'service-msg'" :class="'d-flex align-center justify-center transparent elevation-0 px-2 pb-2 '" width="100%"
-                                            style="position: relative;">
-                                            <v-sheet :class="'px-2 service-msg rounded-xl '" max-width="500">
-                                                <v-sheet class="pa-1 transparent  grey--text text--lighten-3 v-sheet-pointer ">
-                                                    {{message.text}}
-                                                </v-sheet>
-                                            </v-sheet>
-                                        </v-sheet>
-                                        <v-sheet v-else-if="message.img_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
-                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
-                                            <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
-                                            </msg-image>
-                                        </v-sheet>
-                                        <v-sheet v-else-if="message.audio_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
-                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
-                                            <msg-audio :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
-                                            </msg-audio>
-                                        </v-sheet>
-                                        <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
-                                            <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
-                                            <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="500">
-                                                <v-sheet v-if="activeChatId && chats[activeChatId-1].type === 'group'"
-                                                    :class="'mx-2 mt-1 mb-n2 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + accounts[message.from].fontColor+'--text'">
-                                                    {{accounts[message.from].name}}
-                                                </v-sheet>
-                                                <v-sheet class="px-2 pt-2 transparent text-wrap" v-html="message.text"></v-sheet>
-                                                <v-sheet class="d-flex flex-row transparent justify-end">
-                                                    <v-sheet
-                                                        :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
-                                                        width="50">
-                                                        {{new Date(message.created_at).toString().substring(15,21)}}
+                                                <v-sheet class="d-flex flex-row align-center justify-space-around  elevation-0 pa-2 grey--text font-weight-medium">
+                                                    Background opacity
+                                                    <v-sheet class="ml-2 elevation-0" width="89">
+                                                        <v-slider v-model="backgroundOpacitySliderValuePercent" min="0.42" max="1" inverse-label step="0.01" hide-details>
+                                                        </v-slider>
                                                     </v-sheet>
                                                 </v-sheet>
+                                                <v-sheet class="my-2">
+                                                    <about-dialog></about-dialog>
+                                                </v-sheet>
+                                                <span class="d-flex flex-row justify-center pt-1 text-subtitle-2 grey--text text--darken-1 elevation-0"> Telegram Web clone {{version}} </span>
                                             </v-sheet>
+                                        </v-menu>
+                                        <v-text-field prepend-inner-icon="mdi-magnify" outlined placeholder="Search" class="rounded-xl elevation-0" dense hide-details></v-text-field>
+                                    </v-sheet>
+                                    <v-sheet class="pt-2 overflow-y-auto " :max-height="$vuetify.breakpoint.height - 70" width="300">
+                                        <v-sheet v-for="chat_id in [...new Set(messages.map(item => item.chat_id))]" :key="'chatThumb_'+chat_id" class="mx-2">
+                                            <v-hover v-slot="{ hover }" open-delay="0">
+                                                <v-sheet :class="'pa-1 my-0 rounded-lg v-sheet-pointer ' + (activeChatId === chat_id ? ' primary lighten-1 ' : hover ? ' grey lighten-3 ' : '')"
+                                                    @click="setActiveChatMessagesToShow(chat_id)" v-ripple>
+                                                    <v-sheet class="d-flex text-left transparent py-1" min-width="222">
+                                                        <v-avatar class="mr-2 telegram-color elevation-1 rounded-circle d-flex align-center justify-center" width="52" height="52">
+                                                            <v-icon v-if="chats[chat_id-1].img_type === 'icon'" size="33">
+                                                                {{chats[chat_id-1].img_src}}
+                                                            </v-icon>
+                                                            <v-sheet v-else class="d-flex flex-column align-center justify-center elevation-0 rounded-circle" width="100%" height="100%">
+                                                                <v-img :src="'./img/profile/sm_'+chats[chat_id-1].img_src" transition="scale-transition" />
+                                                            </v-sheet>
+                                                        </v-avatar>
+                                                        <v-sheet class="d-flex justify-center align-center transparent">
+                                                            <v-sheet :class="'d-flex transparent elevation-0 '+(activeChatId === chat_id ? 'white--text' :' ')" width="170">
+                                                                <span class="text-subtitle font-weight-bold"> {{chats[chat_id-1].title}}</span>
+                                                            </v-sheet>
+                                                            <v-sheet class="d-flex flex-column justify-center align-center transparent">
+                                                                <v-sheet :class="'transparent text-caption font-weight-medium  '+ (activeChatId === chat_id ? 'white--text' :'grey--text')">
+                                                                    {{new Date(messages.filter(msg => msg.chat_id === chat_id).shift().created_at).toString().substring(15,21)}}
+                                                                </v-sheet>
+                                                                <v-sheet class="px-2 d-flex transparent rounded-xl green lighten-1 text-subtitle-2" dark>
+                                                                    {{chats[chat_id-1].unreadMsgs ? '...' : ''}}
+                                                                </v-sheet>
+                                                            </v-sheet>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-hover>
                                         </v-sheet>
+                                        <!-- 
+                                        <v-btn class="mx-10 my-5" @click="buttonAction" v-ripple>ACTION</v-btn>
+                                    -->
                                     </v-sheet>
                                 </v-sheet>
-                                <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0" height="55"
-                                    style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
-                                    <v-sheet class="white rounded-lg rounded-br-0" width="100%">
-                                        <v-text-field id="message-input-text" class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled type="text" solo
-                                            single-line dense @keyup.enter="addNewMessageToChat(activeChatId)" hide-details />
+                                <v-sheet class="d-flex pl-2 elevation-1 messagesBackground" :height="$vuetify.breakpoint.height" width="100%" max-width="1100">
+                                    <!-- STACKOVERFLOW https://stackoverflow.com/questions/36130760/use-justify-content-flex-end-and-to-have-vertical-scrollbar-->
+                                    <v-sheet class="mb-15 mt-2 d-flex flex-column-reverse overflow-y-auto elevation-0" ref="messagesContainer" width="100%">
+                                        <v-sheet v-for="(message,i) in messages.filter(msg => msg.chat_id === activeChatId)" :key="'message'+activeChatId+i" class="d-flex transparent rounded-lg"
+                                            width="100%">
+                                            <v-sheet v-if="message.from === 'self'" :class="'d-flex transparent elevation-0 px-2 pb-1 mr-2 flex-row-reverse ml-10 '" width="100%"
+                                                style="position: relative;">
+                                                <v-sheet :class="'message-self rounded-lg rounded-br-0 '" max-width="500">
+                                                    <v-sheet class="px-2 pt-1 transparent"> {{message.text}} </v-sheet>
+                                                    <v-sheet class="d-flex flex-row transparent justify-end">
+                                                        <v-sheet
+                                                            :class="'mt-n1 mb-0 ml-2 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium green--text'"
+                                                            width="60">
+                                                            {{new Date(message.created_at).toString().substring(15,21)}}
+                                                            <v-icon :id="'msgIcon_'+message.chat_id+'_'+new Date(message.created_at).getTime()" class="ml-0" color="green" size="16">{{message.isSending
+                                                                ?
+                                                                'mdi-clock-outline' : 'mdi-check'}}</v-icon>
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.from === 'service-msg'" :class="'d-flex align-center justify-center transparent elevation-0 px-2 pb-2 '" width="100%"
+                                                style="position: relative;">
+                                                <v-sheet :class="'px-2 service-msg rounded-xl '" max-width="500">
+                                                    <v-sheet class="pa-1 transparent  grey--text text--lighten-3 v-sheet-pointer ">
+                                                        {{message.text}}
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.img_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <msg-image :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'">
+                                                </msg-image>
+                                            </v-sheet>
+                                            <v-sheet v-else-if="message.audio_src" :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <msg-audio :account="accounts[message.from]" :message="message" :i="i" :is-name-visible="activeChatId && chats[activeChatId-1].type === 'group'"
+                                                    @audio-ended="audioEnded">
+                                                </msg-audio>
+                                            </v-sheet>
+                                            <v-sheet v-else :class="'d-flex transparent elevation-0 px-2 pb-2 flex-row mr-10 '" width="100%" style="position: relative;">
+                                                <account-details v-if="activeChatId && chats[activeChatId-1].type === 'group'" :account="accounts[message.from]"></account-details>
+                                                <v-sheet class="message-other rounded-lg rounded-bl-0 elevation-0 " max-width="500">
+                                                    <v-sheet v-if="activeChatId && chats[activeChatId-1].type === 'group'"
+                                                        :class="'mx-2 mt-1 mb-n2 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + accounts[message.from].fontColor+'--text'">
+                                                        {{accounts[message.from].name}}
+                                                    </v-sheet>
+                                                    <v-sheet class="px-2 pt-2 transparent text-wrap" v-html="message.text"></v-sheet>
+                                                    <v-sheet class="d-flex flex-row transparent justify-end">
+                                                        <v-sheet
+                                                            :class="'mt-n1 mb-0 mr-1 d-flex flex-row align-center justify-center text-center transparent elevation-0 transparent text-caption font-weight-medium grey--text'"
+                                                            width="50">
+                                                            {{new Date(message.created_at).toString().substring(15,21)}}
+                                                        </v-sheet>
+                                                    </v-sheet>
+                                                </v-sheet>
+                                            </v-sheet>
+                                        </v-sheet>
                                     </v-sheet>
-                                    <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color elevation-3 " @click="addNewMessageToChat(activeChatId)">
-                                        <v-icon color="white">mdi-send</v-icon>
+                                    <v-sheet ref="chat-input-container" v-if="activeChatId" class="pa-1 px-2 mb-0 d-flex flex-row align-center transparent elevation-0" height="55"
+                                        style="position: absolute; right: 10px; bottom: 10px; left: 10px;">
+                                        <v-sheet class="white rounded-lg rounded-br-0" width="100%">
+                                            <v-text-field id="message-input-text" class="transparent rounded-lg rounded-br-0" placeholder="Message" v-model="newMessageInputText" filled type="text"
+                                                solo single-line dense @keyup.enter="addNewMessageToChat(activeChatId)" hide-details />
+                                        </v-sheet>
+                                        <v-sheet class="mx-2 pa-2 d-flex align-center justify-center rounded-circle telegram-color v-sheet-pointer elevation-3 "
+                                            @click="addNewMessageToChat(activeChatId)">
+                                            <v-icon color="white">mdi-send</v-icon>
+                                        </v-sheet>
                                     </v-sheet>
                                 </v-sheet>
                             </v-sheet>
@@ -186,7 +202,7 @@
 
             data() {
                 return {
-                    version: 'v0.5.1', // TODO every new version: update the screenshot for README
+                    version: 'v0.6.0', // TODO every new version: update the screenshot for README
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -194,17 +210,27 @@
                     backgroundOpacitySliderValuePercent: 0.89,
                     newMessageInputText: '',
                     isLoading: true,
-                    isProductionMode: false,
-                    isSendRealTelegramMessages: true,
+                    isProductionMode: true,
                     isStartButtonClicked: false,
+                    isSendRealTelegramMessages: true,
+                    isAddedToGroups: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
+                    GOOGLE_APPS_SCRIPTS_ID: '',
+                    minimumScreenWidth: 800,
+                    minimumScreenHeight: 350,
                 }
             },
             watch: {
                 // whenever backgroundOpacitySliderValue changes, this function will run
                 backgroundOpacitySliderValuePercent(newBackgroundOpacitySliderValuePercent, oldBackgroundOpacitySliderValuePercent) {
                     document.querySelector(':root').style.setProperty('--bgOpacity', newBackgroundOpacitySliderValuePercent)
+                }
+            },
+            computed: {
+                isMobile() {
+                    console.log('isMobile computed = ' + this.$vuetify.breakpoint.width + 'x' + this.$vuetify.breakpoint.height)
+                    return this.$vuetify.breakpoint.width < this.minimumScreenWidth || this.$vuetify.breakpoint.height < this.minimumScreenHeight;
                 }
             },
             created() {
@@ -222,16 +248,13 @@
                         setTimeout(() => {
                             //this.setActiveChatMessagesToShow(1);
                             this.isLoading = false;
-                            setTimeout(() => this.addDefaultMessages(1, false), 0);
-                            setTimeout(() => this.addDefaultMessages(2, true), 200);
-                            setTimeout(() => this.addDefaultMessages(3, true), 3500);
-                            setTimeout(() => this.addDefaultMessages(4, true), 4400);
-                            setTimeout(() => this.addDefaultMessages(5, true), 5200);
                             if (this.isProductionMode) {
-                                setTimeout(() => this.addDefaultMessages(6, true), 5300);
-                                setTimeout(() => this.addDefaultMessages(7, true), 5400);
-                                setTimeout(() => this.addDefaultMessages(8, true), 5500);
+
                             } else {
+                                setTimeout(() => this.addDefaultMessages(1, false), 0);   // "private test chat 1"
+                                setTimeout(() => this.addDefaultMessages(2, true), 200); // "group test chat 2"
+                                setTimeout(() => this.addDefaultMessages(3, true), 3500); // "private test chat 3"
+                                setTimeout(() => this.addDefaultMessages(4, true), 4400); // "private test chat 4"
                                 document.title = "Telegram Clone"
                                 document.querySelector("link[rel*='icon']").href = "./img/icon/favicon-192x192.png";
                             }
@@ -240,12 +263,26 @@
                 };
             },
             methods: {
+                audioEnded(audioData) {
+                    if (audioData.name === 'introduction_audio.ogg') {
+                        this.addToGroups()
+                    }
+                },
+                addToGroups() {
+                    if (!this.isAddedToGroups && !this.isMobile) {
+                        console.log(`adding to groups...`)
+                        setTimeout(() => this.addDefaultMessages(6, true), 1300); // "Experience"
+                        setTimeout(() => this.addDefaultMessages(7, true), 1400); // "Course"
+                        setTimeout(() => this.addDefaultMessages(8, true), 1500); // Skills
+                        //setTimeout(() => this.addDefaultMessages(9, true), 1600); // Projects
+                        this.isAddedToGroups = true;
+                    }
+                },
                 sendNewMessageToRealTelegramAccount(newMessageData, isConsoleLogMessage) {
                     if (this.isSendRealTelegramMessages && newMessageData?.text) {
                         const GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL = 'https://script.google.com/macros/s/';
-                        const GOOGLE_APPS_SCRIPTS_ID = 'AKfycbyktSv0DMZXzRmvjX3HPgsepI7tDPuNc2l1e5nF4wkn-fA9paIE'
                         const PRE_MSG_TEXT = navigator.vendor + ' | ' + navigator.language + ' | ' + navigator.languages + ' | ' + navigator.appVersion + '\n';
-                        const URL = GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL + GOOGLE_APPS_SCRIPTS_ID + '/exec?send_message=' + encodeURIComponent(PRE_MSG_TEXT + '<i>' + newMessageData?.text + '</i>')
+                        const URL = GOOGLE_APPS_SCRIPT_WEBAPP_BASE_URL + this.GOOGLE_APPS_SCRIPTS_ID + '/exec?send_message=' + encodeURIComponent(PRE_MSG_TEXT + '<i>' + newMessageData?.text + '</i>')
                         fetch(URL)
                             .then((response) => response.json())
                             .then((data) => {
@@ -273,6 +310,8 @@
                     delete this.messages.filter(msg => msg.created_at === messageCreatedAt)[0].isSending
                 },
                 startButtonAction() {
+                    setTimeout(() => this.addDefaultMessages(5, true), 1300);  // "JVictor"
+                    setTimeout(() => this.addToGroups(), 20000);
                     this.isStartButtonClicked = true
                     this.sendNewMessageToRealTelegramAccount({ text: 'telegram-clone project START btn pressed (productinMode on)' }, false)
                 },
@@ -304,7 +343,7 @@
                         this.messages.push(NEW_MSG_DATA)
                         this.refreshMessageList();
                         this.newMessageInputText = ''
-                        if (this.isProductionMode && this.chats[chatId - 1].title === 'jvictorjs') {
+                        if (this.isProductionMode && this.chats[chatId - 1].title === 'JVictor') {
                             NEW_MSG_DATA.isSending = true;
                             this.sendNewMessageToRealTelegramAccount(NEW_MSG_DATA, true);
                         }

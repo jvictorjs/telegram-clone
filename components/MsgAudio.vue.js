@@ -69,6 +69,7 @@ const MsgAudio = {
         };
         this.audio.onended = (event) => {
           console.log("ended: " + this.audio.currentTime);
+          this.$emit("audio-ended", { name: this.message.audio_src, duration: this.audio.duration });
           this.isAudioPlaying = false;
         };
       }

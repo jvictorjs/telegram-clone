@@ -38,10 +38,10 @@ https://en.wikipedia.org/wiki/Telegram_(software)
 - ✅ Image messages with viewer component [v0.4.2]
 - ✅ Loading page (while downloading assets in background) [v0.4.3]
 - ✅ Audio messages player component [v0.4.4]
-- ✅ Change page title and icon [0.4.5]
-- ✅ Send real messages to Telegram account [0.5.0]
-- ✅ Message body HTML tags support using the v-html directive [0.5.1]
-- Mobile alert: ask to rotate screen
+- ✅ Change page title and icon [v0.4.5]
+- ✅ Send real messages to Telegram account [v0.5.0]
+- ✅ Message body HTML tags support using the v-html directive [v0.5.1]
+- ✅ Mobile screen alert: ask to rotate screen [v0.6.0]
 - README.md full project description details with demo video
 - About text (project motivation/description)
 - Chat title/pic bar in the top of messages container

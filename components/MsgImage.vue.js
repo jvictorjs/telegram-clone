@@ -9,7 +9,7 @@ const MsgImage = {
                     {{account.name}}
                 </v-sheet>
                 <v-sheet class="ma-2 elevation-0 rounded-lg" v-bind="attrs" v-on="on" >
-                    <v-img :src="'./img/profile/'+message.img_src" class="rounded-lg" />
+                    <v-img :src="'./img/'+message.img_src" class="rounded-lg" />
                 </v-sheet>
                 <v-sheet class="px-2 mt-n1 transparent text-wrap" v-html="message.text"></v-sheet>
                 <v-sheet class="d-flex flex-row transparent justify-end">
@@ -26,7 +26,7 @@ const MsgImage = {
                 <v-sheet class="pt-13 d-flex flex-column align-center justify-center transparent" :height="$vuetify.breakpoint.height -30"
                     @click="dialog = false">
                     <v-sheet class="d-flex flex-column align-center justify-center transparent relative" width="100%">
-                        <v-img :src="'./img/profile/'+message.img_src" transition="scale-transition" />
+                        <v-img :src="'./img/'+message.img_src" transition="scale-transition" />
                     </v-sheet>
                     <v-sheet class="d-flex flex-column align-center transparent white--text pa-2">
                         <v-sheet class="text-center white--text transparent text-wrap" width="500" v-html="message.text"></v-sheet>

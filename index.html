@@ -24,7 +24,7 @@
                                 <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
                             </v-sheet>
                             <v-sheet class="mt-10 text-center transparent grey--text text--darken-2" max-width="300">
-                                For better user experience, it is recommended to open this website in a desktop device with 1024x768 as a minimum screen resolution.
+                                For better user experience, it is recommended to open this page on a desktop device with a minimum of 1024x768 screen resolution.
                             </v-sheet>
                         </v-sheet>
                         <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400">
@@ -202,7 +202,7 @@
 
             data() {
                 return {
-                    version: 'v0.6.0', // TODO every new version: update the screenshot for README
+                    version: 'v1.0.0', // TODO every new version: update the screenshot for README | remeber to set the GOOGLE_APPS_SCRIPTS_ID value
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],
@@ -216,7 +216,7 @@
                     isAddedToGroups: false,
                     chats: CHATS,
                     accounts: ACCOUNTS,
-                    GOOGLE_APPS_SCRIPTS_ID: '',
+                    GOOGLE_APPS_SCRIPTS_ID: '', // TODO every new version: remeber to set the GOOGLE_APPS_SCRIPTS_ID value
                     minimumScreenWidth: 800,
                     minimumScreenHeight: 350,
                 }
@@ -241,6 +241,18 @@
                 console.warn('mounted')
                 const img = new Image();
                 img.src = './img/telegram-backgroundZ.png';
+                new Image().src = './img/projects/project-telegram-clone.png';
+                new Image().src = './img/projects/project-bolanarede.png';
+                new Image().src = './img/projects/project-skills.png';
+                new Image().src = './img/projects/project-my-course-platform.png';
+                new Image().src = './img/projects/project-firesafe.jpg';
+                new Image().src = './img/projects/project-portfolio.png';
+                new Image().src = './img/projects/project-medicine-reminder.jpg';
+                new Image().src = './img/projects/project-painel-fundo-a-fundo.png';
+                new Image().src = './img/projects/project-tremdgol-backend.png';
+                new Image().src = './img/projects/project-tremdgol.com.png';
+                new Image().src = './img/projects/project-avalia-me.png';
+                new Image().src = './img/projects/playstore-tremdgol-free-screenshot.png';
                 img.onload = () => {
                     window.onload = (event) => {
                         console.log('page is fully loaded');
@@ -251,10 +263,13 @@
                             if (this.isProductionMode) {
 
                             } else {
-                                setTimeout(() => this.addDefaultMessages(1, false), 0);   // "private test chat 1"
-                                setTimeout(() => this.addDefaultMessages(2, true), 200); // "group test chat 2"
-                                setTimeout(() => this.addDefaultMessages(3, true), 3500); // "private test chat 3"
-                                setTimeout(() => this.addDefaultMessages(4, true), 4400); // "private test chat 4"
+                                //setTimeout(() => this.addDefaultMessages(1, false), 0);   // "private test chat 1"
+                                //setTimeout(() => this.addDefaultMessages(2, true), 200); // "group test chat 2"
+                                //setTimeout(() => this.addDefaultMessages(3, true), 3500); // "private test chat 3"
+                                //setTimeout(() => this.addDefaultMessages(4, true), 4400); // "private test chat 4"
+                                setTimeout(() => this.addDefaultMessages(5, true, false), 300);  // "JVictor"
+                                setTimeout(() => this.setActiveChatMessagesToShow(8), 1000);  // 6: experience | 7: course | 8: skills | 9: projects
+                                this.addToGroups()
                                 document.title = "Telegram Clone"
                                 document.querySelector("link[rel*='icon']").href = "./img/icon/favicon-192x192.png";
                             }
@@ -271,10 +286,10 @@
                 addToGroups() {
                     if (!this.isAddedToGroups && !this.isMobile) {
                         console.log(`adding to groups...`)
-                        setTimeout(() => this.addDefaultMessages(6, true), 1300); // "Experience"
-                        setTimeout(() => this.addDefaultMessages(7, true), 1400); // "Course"
-                        setTimeout(() => this.addDefaultMessages(8, true), 1500); // Skills
-                        //setTimeout(() => this.addDefaultMessages(9, true), 1600); // Projects
+                        setTimeout(() => this.addDefaultMessages(6, true, true), this.isProductionMode ? 2300 : 200); // "Experience"
+                        setTimeout(() => this.addDefaultMessages(8, true, true), this.isProductionMode ? 11300 : 400); // Skills
+                        setTimeout(() => this.addDefaultMessages(9, true, true), this.isProductionMode ? 22300 : 900); // Projects
+                        setTimeout(() => this.addDefaultMessages(7, true, true), this.isProductionMode ? 33300 : 600); // "Course"
                         this.isAddedToGroups = true;
                     }
                 },
@@ -310,8 +325,8 @@
                     delete this.messages.filter(msg => msg.created_at === messageCreatedAt)[0].isSending
                 },
                 startButtonAction() {
-                    setTimeout(() => this.addDefaultMessages(5, true), 1300);  // "JVictor"
-                    setTimeout(() => this.addToGroups(), 20000);
+                    setTimeout(() => this.addDefaultMessages(5, true, false), 1300);  // "JVictor"
+                    setTimeout(() => this.addToGroups(), this.isProductionMode ? 25000 : 200);
                     this.isStartButtonClicked = true
                     this.sendNewMessageToRealTelegramAccount({ text: 'telegram-clone project START btn pressed (productinMode on)' }, false)
                 },
@@ -349,8 +364,9 @@
                         }
                     }
                 },
-                addDefaultMessages(messagesDataSequentialNumber, isPlaySound) {
+                addDefaultMessages(messagesDataSequentialNumber, isPlaySound, isAddedYouMsg) {
                     this.messages = this.messages.concat(MESSAGES[messagesDataSequentialNumber])
+                    if (isAddedYouMsg) this.messages.push({ chat_id: messagesDataSequentialNumber, from: "service-msg", text: "JVictor added you", created_at: new Date(new Date()) })
                     this.refreshMessageList()
                     if (isPlaySound) { this.playNotificationSound(); }
                 },

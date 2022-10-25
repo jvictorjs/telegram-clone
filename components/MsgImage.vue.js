@@ -8,8 +8,8 @@ const MsgImage = {
                     :class="'mx-2 mt-1 mb-n1 d-flex align-self-start rounded-lg transparent font-weight-bold text--lighten-1 ' + account.fontColor+'--text'">
                     {{account.name}}
                 </v-sheet>
-                <v-sheet class="ma-2 elevation-0 rounded-lg" v-bind="attrs" v-on="on" >
-                    <v-img :src="'./img/'+message.img_src" class="rounded-lg" />
+                <v-sheet class="ma-2 elevation-0 rounded-lg" v-bind="attrs" v-on="on" min-height="200">
+                    <v-img :src="'./img/'+message.img_src" class="rounded-lg" contain />
                 </v-sheet>
                 <v-sheet class="px-2 mt-n1 transparent text-wrap" v-html="message.text"></v-sheet>
                 <v-sheet class="d-flex flex-row transparent justify-end">
@@ -23,13 +23,13 @@ const MsgImage = {
         </template>
         <v-card class="" color="rgb(0, 0, 0, 0.87)">
             <v-card-text class=" transparent" height="100%">
-                <v-sheet class="pt-13 d-flex flex-column align-center justify-center transparent" :height="$vuetify.breakpoint.height -30"
+                <v-sheet class="pt-13 d-flex flex-column align-center justify-center transparent " :height="$vuetify.breakpoint.height -30"
                     @click="dialog = false">
-                    <v-sheet class="d-flex flex-column align-center justify-center transparent relative" width="100%">
-                        <v-img :src="'./img/'+message.img_src" transition="scale-transition" />
+                    <v-sheet class="d-flex pa-1 transparent " width="90%" :max-height="$vuetify.breakpoint.height-300">
+                        <v-img :src="'./img/'+message.img_src" transition="scale-transition" contain/>
                     </v-sheet>
                     <v-sheet class="d-flex flex-column align-center transparent white--text pa-2">
-                        <v-sheet class="text-center white--text transparent text-wrap" width="500" v-html="message.text"></v-sheet>
+                        <v-sheet class="white--text transparent text-wrap" width="500" v-html="message.text"></v-sheet>
                     </v-sheet>
                 </v-sheet>
             </v-card-text>

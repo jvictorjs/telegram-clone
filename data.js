@@ -145,7 +145,7 @@ const MESSAGES = {
       chat_id: 5,
       from: 1,
       text: `
-      <b><i>Any text message you send here will be recieved in my real Telegram account.</i></b>
+      <b><i>Any text message you send here will be received in my real Telegram account.</i></b>
       `,
       created_at: new Date(new Date() - 7000),
     },
@@ -155,7 +155,7 @@ const MESSAGES = {
     { chat_id: 6, from: "service-msg", text: "March 17, 1989", created_at: new Date(1989, 1, 17, 0, 0, 0, 0) },
     { chat_id: 6, from: 1, text: "<b>👶🏻Hello World!</b>", created_at: new Date(1989, 2, 17, 0, 0, 0, 0) },
     { chat_id: 6, from: "service-msg", text: "1995", created_at: new Date(1995, 1, 17, 0, 0, 0, 0) },
-    { chat_id: 6, from: 1, text: "My family's <b>first computer</b> is bought by my father.", created_at: new Date(1995, 2, 17, 0, 0, 0, 0) },
+    { chat_id: 6, from: 1, text: "My father bought the <b>first computer</b> of my family.", created_at: new Date(1995, 2, 17, 0, 0, 0, 0) },
     { chat_id: 6, from: "service-msg", text: "2007", created_at: new Date(2007, 7, 17, 0, 0, 0, 0) },
     {
       chat_id: 6,
@@ -212,7 +212,7 @@ const MESSAGES = {
     {
       chat_id: 6,
       from: 1,
-      text: `Nasa Space Apps Hackton 2nd place award - Recife. I was in charge of building the 
+      text: `Nasa Space Apps Hackathon 2nd place award - Recife. I was in charge of building the 
       <a href="https://github.com/jvictorjs/nasa_space_apps_2020" target="_blank">mobile app prototype.</a>`,
       created_at: new Date(2020, 10, 17, 0, 0, 0, 0),
     },
@@ -294,7 +294,7 @@ const MESSAGES = {
     {
       chat_id: 8,
       from: 1,
-      text: "Started working with <b>Data Analisys</b> and <b>Data Engeneeginr</b> using these tools: <br><b>Pentaho Data Integration</b>, <br><b>Qlik View</b> <br><b>Qlik Sense</b>",
+      text: "Started working with <b>Data Analysis</b> and <b>Data Engeneeginr</b> using these tools: <br><b>Pentaho Data Integration</b>, <br><b>Qlik View</b> <br><b>Qlik Sense</b>",
       created_at: new Date(2016, 10, 17, 0, 0, 0, 0),
     },
     {
@@ -314,7 +314,7 @@ const MESSAGES = {
     {
       chat_id: 8,
       from: 1,
-      text: `Created the <a href="https://github.com/jvictorjs/nasa_space_apps_2020" target="_blank">Firesafe (hackaton project)</a>: <br><b>React Native</b> <br><b>Expo</b>`,
+      text: `Created the <a href="https://github.com/jvictorjs/nasa_space_apps_2020" target="_blank">Firesafe (hackathon project)</a>: <br><b>React Native</b> <br><b>Expo</b>`,
       created_at: new Date(2020, 4, 17, 0, 0, 0, 0),
     },
     { chat_id: 8, from: "service-msg", text: "2021", created_at: new Date(2021, 2, 17, 0, 0, 0, 0) },
@@ -399,7 +399,7 @@ const MESSAGES = {
       chat_id: 9,
       from: 1,
       img_src: "/projects/project-firesafe.jpg",
-      text: `<b>Firesafe</b> (hackaton prototype)
+      text: `<b>Firesafe</b> (hackathon prototype)
       <br>React Native ● Mobile
       <br><i>Hackathon project for 2020 Nasa Space Apps Challenge - Location: Recife (2nd place award).</i>
       <br><a href="https://github.com/jvictorjs/nasa_space_apps_2020" target="_blank">GitHub repository</a>
@@ -413,7 +413,7 @@ const MESSAGES = {
       img_src: "/projects/project-tremdgol-backend2.png",
       text: `<b>TremdGol Backend</b> (Soccer Stats API)
       <br>Node.js ● REST API ● <a href="https://api.tremdgol.com/" target="_blank">api.tremdgol.com</a>
-      <br><i>REST API that provides soccer matches statistics to others applications.</i>
+      <br><i>REST API that provides soccer matches statistics to other applications.</i>
       <br><a href="https://github.com/jvictorjs/tremdgol-backend" target="_blank">GitHub repository</a>
       <br><span class="blue--text">#JSONserver #DigitalOcean</span>
       `,
@@ -426,7 +426,7 @@ const MESSAGES = {
       img_src: "/projects/project-painel-fundo-a-fundo.png",
       text: `<b>Fundo a Fundo Dashboard</b>
       <br>Qlik Sense ● Web ● <a href="https://painelfundoafundo.economia.gov.br/" target="_blank">painelfundoafundo.economia.gov.br</a>
-      <br><i>BI Dashboard created using to present data from the Brazil's Ministry of Economy.</i>
+      <br><i>BI Dashboard created to present data from the Brazil's Ministry of Economy.</i>
       <br><a href="https://www.youtube.com/watch?v=xm1f4tRW0Sg" target="_blank">YouTube demo</a>
       <br><span class="blue--text">#QlikSense #JavaScript #HTML #CSS</span>
       `,

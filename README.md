@@ -18,7 +18,7 @@ English
 
 ## Motivation
 
-After I get bored with my default portfolio web page, I came up with the idea of making something different, that really represents me. And everyone close to me knows that <b>I am a Telegram messaging app fan</b>.
+After I got bored with my default portfolio web page, I came up with the idea of making something different that really represents me. And everyone close to me knows that <b>I am a Telegram messaging app fan</b>.
 
 I wanted to build something original. So anyone could say: "Wow, this is cool!".
 
@@ -32,16 +32,16 @@ This app put together:
 
 And that is the result: an interactive and useful web app.
 
-## Why using Vue from a CDN?
+## Why use Vue from a CDN?
 
 https://vuetifyjs.com/en/getting-started/installation/#usage-with-cdn
 
 If you want to build a quick demo project, this app is a good example of how a simple Vue setup from CDN can be used.
 
-The ideia of creating an app with Vue directly from a CDN is based on:
+The idea of creating an app with Vue directly from a CDN is based on:
 
 - No need for specific setup to build: you can use Vue from anywhere
-- Focus on simplicity and speed to create a quick MVP that demonstrade the usage of HTML, CSS and JS
+- Focus on simplicity and speed to create a quick MVP that demonstrate the usage of HTML, CSS and JS
 - Everything is portable: others can easily change stuff
 - It is a simple page with no such complex functionalities.
 
@@ -55,8 +55,8 @@ All of this works within a single HTML page and some JS files.
 
 Telegram is one of the most used messaging apps in the World. https://www.statista.com/statistics/258749/most-popular-global-mobile-messenger-apps/
 
-As of September 2022, it has surpassed 700 milion users.
-It is open source and has really good API documetation.
+As of September 2022, it has surpassed 700 million users.
+It is open source and has really good API documentation.
 
 > "Telegram has public APIs with which developers can access the same functionality as Telegram's official apps to build their own messaging applications.
 > ...
@@ -70,7 +70,7 @@ https://jvictor.com.br
 
 https://user-images.githubusercontent.com/28718999/190947366-727967c4-ff9e-4846-a71a-4073b2622779.mp4
 
-> Responsive web page built from scratch with <b>VUE.JS</b>, using <b>JAVASCRIPT</b>, <b>HTML</b> and <b>CSS</b>. In addition, to faster and beauty design I used <b>VUETIFY</b> UI library and some <b>MATERIAL DESIGN ICONS</b>. Hosted in a Linux <b>UBUNTU</b> dedicated server at <b>DIGITALOCEAN</b> cloud infrastructure. Version control by <b>GIT</b> and <b>GITHUB</b>. Reverse proxy with <b>NGINX</b>. SSL certification with <b>CERTBOT</b>.
+> Responsive web page built from scratch with <b>VUE.JS</b>, using <b>JAVASCRIPT</b>, <b>HTML</b> and <b>CSS</b>. To faster and beauty design I used <b>VUETIFY</b> UI library and some <b>MATERIAL DESIGN ICONS</b>. Hosted in a Linux <b>UBUNTU</b> dedicated server at <b>DIGITALOCEAN</b> cloud infrastructure. Version control by <b>GIT</b> and <b>GITHUB</b>. Reverse proxy with <b>NGINX</b>. SSL certification with <b>CERTBOT</b>.
 
 ## TODO (changelog + backlog)
 

@@ -1,6 +1,6 @@
 export { ACCOUNTS, CHATS, MESSAGES, JVICTOR_JS_TEXT_MENTION_HTML };
 
-const JVICTOR_JS_TEXT_MENTION_HTML = '<a href="https://github.com/jvictorjs" target="_blank"><strong class="blue--text">@jvictorjs</strong></a>';
+const JVICTOR_JS_TEXT_MENTION_HTML = '<a href="https://t.me/jvictorjs" target="_blank"><strong class="blue--text">@jvictorjs</strong></a>';
 
 const parseDateToString = (date) => {
   const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -294,7 +294,7 @@ const MESSAGES = {
     {
       chat_id: 8,
       from: 1,
-      text: "Started working with <b>Data Analysis</b> and <b>Data Engeneeginr</b> using these tools: <br><b>Pentaho Data Integration</b>, <br><b>Qlik View</b> <br><b>Qlik Sense</b>",
+      text: "Started working with <b>Data Analysis</b> and <b>Data Engineering</b> using these tools: <br><b>Pentaho Data Integration</b>, <br><b>Qlik View</b> <br><b>Qlik Sense</b>",
       created_at: new Date(2016, 10, 17, 0, 0, 0, 0),
     },
     {
@@ -321,7 +321,7 @@ const MESSAGES = {
     {
       chat_id: 8,
       from: 1,
-      text: `Created the <a href="https://bolanarede.net.br/" target="_blank">Bola na Rede</a> web app using: <br><b>Angular</b> <br><b>TypeScript</b> <br><b>Chart.js</b>`,
+      text: `Created the <a href="https://bolanarede.net.br/" target="_blank">Bola na Rede</a> and the <a href="https://portfolio.jvictor.com.br" target="_blank">Portfolio</a> web sites using: <br><b>Angular</b> <br><b>TypeScript</b> <br><b>Chart.js</b>`,
       created_at: new Date(2021, 3, 17, 0, 0, 0, 0),
     },
     {
@@ -392,7 +392,7 @@ const MESSAGES = {
       <br><a href="https://github.com/jvictorjs/medicine-reminder-telegram-chatbot" target="_blank">GitHub repository</a>
       <br><span class="blue--text">#GoogleAppsScript #JavaScript #TelegramBotAPI</span>
       `,
-      created_at: new Date(2019, 2, 17, 0, 0, 0, 0),
+      created_at: new Date(2019, 3, 17, 0, 0, 0, 0),
     },
     { chat_id: 9, from: "service-msg", text: "2020", created_at: new Date(2020, 2, 17, 0, 0, 0, 0) },
     {
@@ -405,7 +405,7 @@ const MESSAGES = {
       <br><a href="https://github.com/jvictorjs/nasa_space_apps_2020" target="_blank">GitHub repository</a>
       <br><span class="blue--text">#React #ReactNative #Expo</span>
       `,
-      created_at: new Date(2020, 2, 17, 0, 0, 0, 0),
+      created_at: new Date(2020, 3, 17, 0, 0, 0, 0),
     },
     {
       chat_id: 9,
@@ -417,7 +417,7 @@ const MESSAGES = {
       <br><a href="https://github.com/jvictorjs/tremdgol-backend" target="_blank">GitHub repository</a>
       <br><span class="blue--text">#JSONserver #DigitalOcean</span>
       `,
-      created_at: new Date(2020, 3, 17, 0, 0, 0, 0),
+      created_at: new Date(2020, 4, 17, 0, 0, 0, 0),
     },
     { chat_id: 9, from: "service-msg", text: "2021", created_at: new Date(2021, 2, 17, 0, 0, 0, 0) },
     {

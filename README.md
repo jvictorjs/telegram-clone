@@ -20,15 +20,13 @@ English
 
 After I got bored with my default portfolio web page, I came up with the idea of making something different that really represents me. And everyone close to me knows that <b>I am a Telegram messaging app fan</b>.
 
-I wanted to build something original. So anyone could say: "Wow, this is cool!".
-
-<b>Most of the personal pages and portfolios are the same</b>. [I already have a page like that.](https://portfolio.jvictor.com.br/)
+I wanted to build something original. So anyone could say: "Wow, this is cool!". <b>Most of the personal portfolio pages are the same</b>. [I already have a page like that.](https://portfolio.jvictor.com.br/)
 
 This app put together:
 
-- Something that shows my skills, creativity and best interests,
-- Techs and tools I am more comfortable right now,
-- The stack I use in my own projects so I can rapidly finish the development.
+- Something that shows my skills, creativity and best interests
+- Techs and tools I am more comfortable with
+- A stack I use in my own projects so I can rapidly finish the development.
 
 And that is the result: an interactive and useful web app.
 

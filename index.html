@@ -19,12 +19,16 @@
                 <template>
                     <v-container class="align-center justify-center appContainer pa-0" fluid fill-height>
                         <v-sheet v-if="isMobile" class="d-flex flex-column align-center transparent elevation-0">
-                            <v-sheet class="my-3 pa-3 text-center rounded-lg elevation-2 mx-auto" max-width="300">
-                                PLEASE ROTATE YOUR DEVICE
-                                <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
-                            </v-sheet>
-                            <v-sheet class="mt-10 text-center transparent grey--text text--darken-2" max-width="300">
+                            <!-- 
+                                <v-sheet class="my-3 pa-3 mb-10 text-center rounded-lg elevation-2 mx-auto" max-width="300">
+                                    PLEASE ROTATE YOUR DEVICE
+                                    <v-icon large color="grey darken-1"> mdi-phone-rotate-landscape </v-icon>
+                                </v-sheet>
+                            -->
+                            <v-sheet class="text-center transparent grey--text text--darken-2" max-width="300">
                                 For better user experience, it is recommended to open this page on a desktop device with a minimum of 1024x768 screen resolution.
+                                <br>
+                                <v-sheet class="mt-3 text-caption text-center"> 2022 <a href="https://github.com/jvictorjs" target="_blank">@jvictorjs</a> </v-sheet>
                             </v-sheet>
                         </v-sheet>
                         <v-sheet v-else class="d-flex flex-row align-center justify-center" height="100%" width="100%" max-width="1400">
@@ -202,7 +206,7 @@
 
             data() {
                 return {
-                    version: 'v1.0.0', // TODO every new version: update the screenshot for README | remeber to set the GOOGLE_APPS_SCRIPTS_ID value
+                    version: 'v1.0.1', // TODO every new version: update the screenshot for README | remeber to set the GOOGLE_APPS_SCRIPTS_ID value
                     messages: [],
                     activeChatId: null,
                     activeChatMessagesToShow: [],

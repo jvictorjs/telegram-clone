@@ -93,7 +93,7 @@ a {
 /* Works on Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(55, 55, 55, 0.4) orange;
+  scrollbar-color: rgba(55, 55, 55, 0.4);
 }
 
 /* Works on Chrome, Edge, and Safari */
